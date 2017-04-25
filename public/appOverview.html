@@ -6,126 +6,17 @@
     <link rel="stylesheet" type="text/css" href="style/iconfont/iconfont.css">
     <link rel="stylesheet" type="text/css" href="style/common.css">
     <link rel="stylesheet" type="text/css" href="style/appOverview.css">
-    <script type="text/javascript" src="lib/jquery.js"></script>
-    <script type="text/javascript" src="bundle.js"></script>
+    <script type="text/javascript" src="build/vendor.bundle.js"></script>
+    <script type="text/javascript" src="build/index.bundle.js"></script>
+    <script type="text/javascript" src="build/appOverview.bundle.js"></script>
+<!--     <script type="text/javascript" src="appOverview.js"></script> -->
 </head>
 <body>
     <div class="v-body">
-        <section class="v-header">
-            <div class="v-header-l">
-                <div class="v-header-menu">
-                    <i class="iconfont icon-menu" style="font-size:36px"></i>
-                </div>
-                <div class="v-header-title"><a href="">NFUI Analytics</a></div>
-            </div>
-            <div class="v-header-r">
-                <p class="active">报告</p>
-                <!-- <p>扩展功能</p> -->
-            </div>
-            <div class="v-header-login"><a href="">admin</a></div>
-        </section>
-        <section class="v-nav">
-            <div class="v-sider-tab"></div>
-            <!--当前项目 start-->
-            <div class="dplus-site-list">
-                <div class="dplus-site-list-text" id="dplus-site-list-text">
-                    <p id="leftDplusSiteName">记事本APP</p>
-                    <i style="font-size: 18px;" class="iconfont icon-xiala"></i>
-                </div>
-                <!-- 下拉列表 START-->
-                <div class="dplus-site-list-pop" id="dplus-site-list-pop">
-                    <div class="dplus-site-list-pop-lists">
-                        <ul class="dplus-site-list-pop-list">
-                            <li><a href="">Camera</a></li>
-                            <li><a href="">Music</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- 下拉列表 END-->
-            </div>
-            <!--当前项目 end-->
-            <div class="menu_tab">
-                <ul class="g-menu">
-                    <div class="g-sider-tab g-ani">
-                        <p  data-toggle="tooltip" data-placement="right" title="看板中心">
-                            <i class="iconfont iconfont-wendang icon-iconfontwendang" id="kanban_btn"></i>
-                        </p>
-                            <!--<li><i class="iconfont">&#xe670;</i></li>-->
-                    </div>
-                    <li class="active" info="kanban">
-                        <p class="g-pr">
-                            <a href="javascript:;"><span>数据指标</span><span class="down up iconfont icon-down"></span></a>
-                            <!-- <a href="/board/listviewright/?pid=2e1559aa3483fd7128b7" class="g-pa iconfont addkanban" >&#xe692;</a> -->
-                        </p>
-                        <ul>
-                            <li class="on active" style="display: list-item;">
-                                <p>
-                                    <a href="appOverview.html">
-                                        <i class="iconfont iconfont-wendang icon-iconfontwendang"></i>
-                                        <span>应用概况</span>
-                                    </a>
-                                </p>
-                            </li>
-                            <li class="on active" style="display: list-item;">
-                                <p>
-                                    <a href="/">
-                                        <i class="iconfont iconfont-wendang icon-iconfontwendang"></i>
-                                        <span>历史趋势</span>
-                                    </a>
-                                </p>
-                            </li>
-
-                        </ul>
-                    </li>
-                    <li info="kanban">
-                        <p class="g-pr">
-                            <a href="javascript:;"><span>自定义事件</span><span class="down iconfont icon-down"></span></a>
-                            <!-- <a href="/board/listviewright/?pid=2e1559aa3483fd7128b7" class="g-pa iconfont addkanban" >&#xe692;</a> -->
-                        </p>
-                    </li>
-                    <li info="kanban">
-                        <p class="g-pr">
-                            <a href="javascript:;"><span>错误分析</span><span class="down iconfont icon-down"></span></a>
-                            <!-- <a href="/board/listviewright/?pid=2e1559aa3483fd7128b7" class="g-pa iconfont addkanban" >&#xe692;</a> -->
-                        </p>
-                    </li>
-                </ul>
-            </div>
-        </section>
+        <div id="navW">
+        </div>
         <section id="mainW">
-            <div id="historyHeader">
-                <div class="timeW">
-                    <h3>应用概况<i class="iconfont icon-info"></i></h3>
-                    <div class="btnGroup clearfix">
-                        <a class="on" href="/appOverview.html">运营指标
-                        </a><a href="/appOverview2.html">设备使用</a>
-                    </div>
-                    <div class="projSelector">
-                        <span>项目</span>
-                        <select>
-                            <option>全部</option>
-                            <option>TP902</option>
-                            <option>TP903</option>
-                            <option>TP904</option>
-                            <option>TP905</option>
-                        </select>
-                        <span>版本</span>
-                        <select>
-                            <option>全部</option>
-                            <option>1.0</option>
-                            <option>1.1</option>
-                            <option>2.0</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div id="hintsW">
-                <p><strong>启动次数：</strong><span>手动阀地方萨芬份第三个等方式</span></p>
-                <p><strong>启动次数：</strong><span>手动阀地方萨芬发给谁发个</span></p>
-                <p><strong>启动次数：</strong><span>手动阀地方萨芬发电公司</span></p>
-                <p><strong>启动次数：</strong><span>手动阀地方萨芬</span></p>
-                <p><strong>启动次数：</strong><span>手动阀地方萨芬分公司东风公司的风格</span></p>
-                <p><strong>启动次数：</strong><span>手动阀地方萨芬</span></p>
+            <div id="commonHeaderW">
             </div>
             <div class="commonFrame" id="keyIndexW">
                 <div class="keyIndexH">关键指标（今日）</div>

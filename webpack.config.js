@@ -1,14 +1,21 @@
 var webpack = require("webpack");
-
+var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 module.exports = {
-    entry: __dirname + "/public/index.js",
 
-    output: {
-        path:__dirname + '/build',
-        filename: 'bundle.js'
+    entry: {
+        index: __dirname + "/public/js/index.js",
+        appOverview: __dirname + "/public/js/appOverview.js",
+        'vendor': ['jquery']
     },
+    output: {
+        path: __dirname + '/build',
+        filename: "[name].bundle.js",
+        publicPath:"/build"
+    },
+
+
     devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
-   module: {
+    module: {
         loaders: [
             {
                 test:/\.css$/,
@@ -22,12 +29,17 @@ module.exports = {
             $:"jquery",
             jQuery:"jquery",
             "window.jQuery":"jquery"
+        }),
+
+        new CommonsChunkPlugin({
+            name: 'vendor',
+            minChunks: Infinity
         })
     ],
     devServer: {
         contentBase: "./public",//本地服务器所加载的页面所在的目录
         historyApiFallback: true,//不跳转
-        inline: true//实时刷新
+        inline: true,//实时刷新
     }
 
 };
