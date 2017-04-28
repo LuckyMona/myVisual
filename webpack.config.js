@@ -12,9 +12,6 @@ module.exports = {
         filename: "[name].bundle.js",
         publicPath:"/build"
     },
-
-
-    devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
     module: {
         loaders: [
             {
@@ -23,7 +20,8 @@ module.exports = {
             }
         ],
     },
-
+    // devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
+    devtool: process.env.WEBPACK_DEVTOOL || 'source-map',
     plugins:[
         new webpack.ProvidePlugin({
             $:"jquery",
