@@ -1,15 +1,22 @@
-import $ from 'jquery'
+require("./components/projSelector.js");
 
 $(function(){
 
     $("#commonHeaderW").load("commonHeader.html",function(){
+        hintsDynamic();
+        myRouter();
+        $("#projSelector").projSelector();
+    })
 
+    function hintsDynamic(){
         $("#showHints").hover(function(){
             $("#hintsW").show();
         }, function(){
             $("#hintsW").hide();
         });
+    }
 
+    function myRouter(){
         var hash = window.location.hash.substr(1);
         if(hash){
             var index = hash.indexOf("-");
@@ -19,5 +26,6 @@ $(function(){
                 $("#"+subNavHash).addClass('active')
             }
         }
-    })
+    }
+
 })

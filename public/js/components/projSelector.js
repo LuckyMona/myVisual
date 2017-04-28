@@ -22,37 +22,35 @@ $.fn.projSelector = function(options){
             var projEle = $(".projSelect",$e),
                 verEle = $(".verSelect",$e);
 
-            getOptions(projs, "projName", projEle);
+            getOptions(projs,"projID","projName", projEle);
 
             var storagedProjID = storage.getItem("selectedProjID");
             var storagedVerID = storage.getItem("selectedVerID");
 
             if(storagedProjID && storagedVerID){
                 var selectedProjVers = filterVers(vers, Number(storagedProjID));
-                getOptions(selectedProjVers, "verName", verEle);
+                getOptions(selectedProjVers, "verID", "verName", verEle);
+                var nProjID = Number(storagedProjID);
+                var nVerID = Number(storagedVerID);
+                $(".projSelect option[value='"+nProjID+"']").attr("selected", true);
+                $(".verSelect option[value='"+nVerID+"']").attr("selected", true);
             }else{
                 var firstProjVers = filterVers(vers, projs[0].projID);
-                getOptions(firstProjVers, "verName", verEle);
+                getOptions(firstProjVers, "verID","verName", verEle);
                 storage.setItem("selectedProjID",projs[0].projID);
                 storage.setItem("selectedVerID",firstProjVers[0].verID);
             }
 
             projEle.change(function(){
-                var selectedProjName = $(this).children('option:selected').val();
-                var selectedProj = (projs.filter(function(item, index){
-                    return item.projName === selectedProjName
-                }))[0]
-
-                storage.setItem("selectedProjID", selectedProj.projID);
-                var projVers = filterVers(vers,selectedProj.projID)
-                getOptions(projVers, "verName", verEle)
+                var selectedProjID = $(".projSelect option:selected").val();
+                storage.setItem("selectedProjID", selectedProjID);
+                var projVers = filterVers(vers,Number(selectedProjID))
+                getOptions(projVers, "verID","verName", verEle);
+                storage.setItem("selectedVerID", projVers[0].verID);
             })
             verEle.change(function(){
-                var selectedVerName = $(this).children('option:selected').val();
-                var selectedVer = (vers.filter(function(item, index){
-                    return item.verName === selectedVerName
-                }))[0];
-                storage.setItem("selectedVerID", selectedVer.verID);
+                var selectedVerID = $(".verSelect option:selected").val();
+                storage.setItem("selectedVerID", selectedVerID);
             })
         }
 
@@ -62,9 +60,9 @@ $.fn.projSelector = function(options){
             })
         }
 
-        function getOptions(datas,optionName, eleWrap){
+        function getOptions(datas,optionID, optionName, eleWrap){
             var strArr = datas.map(function(item, index){
-                return '<option>'+item[optionName]+'</option>'
+                return '<option value='+item[optionID]+'>'+item[optionName]+'</option>'
             })
             eleWrap.html(strArr.join(""));
         }
