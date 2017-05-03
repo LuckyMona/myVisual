@@ -1,11 +1,11 @@
 import 'normalize.css';
-require("./components/projSelector.js");
+import "./components/projSelector.js";
+import {resFormatToJson, resFormatToString, setHost, getIDs} from "./utils.js";
 
-var HOST = "http://127.0.0.1:9876";
+var HOST = setHost();
 var APPID = 12;
 
 $(function(){
-
 
     /*$("#projSelector").projSelector();*/
 
@@ -42,13 +42,7 @@ $(function(){
         return dateStr;*/
         return "2017-08-09";
     }
-    function getIDs(){
-        return{
-            "projID":localStorage.getItem("selectedProjID"),
-            "verID":localStorage.getItem("selectedVerID"),
-            "appID":APPID
-        }
-    }
+
     function getIndexs(){
         var IDsObj = getIDs();
         var reqOption = {
@@ -58,8 +52,8 @@ $(function(){
             appID:IDsObj.appID
         };
         console.log(reqOption);
-        $.get(HOST+"/historyTrends/getIndexs", reqOption, function(res){
-            var jsonRes = JSON.parse(res);
+        $.get(HOST+"historyTrends/getIndexs", reqOption, function(res){
+            var jsonRes = resFormatToJson(res);
             if(jsonRes && jsonRes.type==="success"){
                 var wrapObj = $("#countsW");
 
@@ -79,7 +73,8 @@ $(function(){
     function initSelector(){
 
         $.get(HOST+"/systemInfo/getProjsAndVers", function(res){
-            var jsonRes = JSON.parse(res);
+            var jsonRes = resFormatToJson(res);
+            console.log(jsonRes)
             if(jsonRes && jsonRes.type==="success"){
                 /*  TODO: fullfill apps options
                 *
@@ -91,7 +86,7 @@ $(function(){
                 }
                 $("#dplus-site-list-pop").find("ul").html(optionStr)
                 */
-                localStorage.setItem("projsAndVersStr",res);
+                localStorage.setItem("projsAndVersStr",resFormatToString(res));
                 $("#projSelector").projSelector();
             }
         })

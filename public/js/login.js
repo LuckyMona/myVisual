@@ -6,6 +6,17 @@ $(document).ready(function() {
 });
 
 var ips = [];
+var HOST = setHost();
+
+function setHost(){
+    var host = localStorage.getItem('HOST');
+    if(host){
+        return host;
+    }
+    host = "http://127.0.0.1:8080/ue/";
+    localStorage.setItem("HOST", host);
+    return host;
+}
 
 function checkKey(e) {
     var keyNum;
@@ -22,26 +33,28 @@ function checkKey(e) {
 };
 
 function login() {
-    if (!$("input[name='username']").val()) {
+    var userName = $("input[name='username']").val();
+    var passWord = $("input[name='password']").val();
+    if (!userName ) {
         alert('请输入用户名');
         return;
     }
-    if (!$("input[name='password']").val()) {
+    if (!passWord) {
         alert('请输入密码');
         return;
     }
-    /*$.post("account/login", {
-        "account" : $("input[name='username']").val(),
-        "password" : $.sha256($("input[name='password']").val()),
+    $.post(HOST+"account/login", {
+        "account" : userName,
+        "password" : $.sha256(passWord),
         "ip" : ips[0] || ''
     }, function(data) {
         if (data.type === 'success') {
-            location.href = 'upload';
+            localStorage.setItem("account",userName);
+            location.href = '/';
         } else if (data.type === 'input') {
             alert(data.errorMessage);
         }
-    });*/
-    location.href = '/';
+    });
 };
 
 function findIP(onNewIP) {
