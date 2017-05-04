@@ -55,7 +55,7 @@ border:1px solid #DEDEDE; border-top:none; }
 
 .appAuth { width:100%; }
 .appAuth .appAuthTr>* { border:1px solid #d5d5d5; padding:10px 20px; }
-.appAuth .appAuthTr>th { width:150px; text-align: center}
+.appAuth .appAuthTr>th { width:150px; text-align: center; height: 40px; box-sizing: border-box;}
 .appAuth .appAuthTr>td { line-height: 20px; }
 
 .appAuth .appAuthTr>.innerTableW { max-width:900px; padding:0 !important; overflow-x: scroll; overflow-y: hidden;}
@@ -73,3 +73,4 @@ border:1px solid #DEDEDE; border-top:none; }
 #memoryW li div span {}
 #memoryW li div h5 { margin-top: 5px; font-size: 18px; margin-bottom: 30px;}
 
+#commonHeaderW { min-height: 60px; }

@@ -9,9 +9,11 @@ $(function(){
         hintsDynamic();
         myRouter();
         $("#projSelector").projSelector();
-        getTotalIndexs();
-        getMemoryDataElecIndexs();
+        getTotalIndexs();           //应用概况-运营指标-获得“累计用户”等四项数值的接口
+        getMemoryDataElecIndexs();  //应用概况-设备使用-获取“内存”等三项指标的数据
+        getAuthorityAndRate();      //应用概况-设备使用-获得权限占比
     })
+
 
     function hintsDynamic(){
         $("#showHints").hover(function(){
@@ -32,15 +34,46 @@ $(function(){
             }
         }
     }
+    function getAuthorityAndRate(){
+        var IDsObj = getIDs();
+        $.get(HOST+"appOverview/appUsing/getAuthorityAndRate", IDsObj, function(res){
+            var jsonRes = resFormatToJson(res);
+            console.log(jsonRes);
+            if(jsonRes){
+                $("#authApply").html(jsonRes.authorities);
+
+                var tableStr = "";
+                var tableThStr = "<tr>";
+                var tableTdStr = "<tr>";
+
+                jsonRes.authoritiesAndRate.forEach(function(item, index){
+                    tableThStr+="<th>"+item.authority+"</th>";
+                    tableTdStr+="<td>"+item.rate+"</td>";
+                });
+                tableThStr+="</tr>";
+                tableTdStr+="</tr>";
+
+                tableStr = tableThStr+tableTdStr;
+
+                $("#innerTable").html(tableStr);
+                var tableWidth = $("#innerTable").width();
+                var tableWrapWidth = $(".innerTableW").width();
+                if(tableWidth<tableWrapWidth){
+                    $("#innerTable").find("th").width(tableWrapWidth/jsonRes.authoritiesAndRate.length)
+                }
+            }
+        });
+    }
     function getTotalIndexs(){
         var IDsObj = getIDs();
         $.get(HOST+"appOverview/keyIndex/getTotalIndexs", IDsObj, function(res){
             var jsonRes = resFormatToJson(res);
-            console.log(jsonRes);
-            setData("totalUsers");
-            setData("weekActiveUsers");
-            setData("weekRetention");
-            setData("errorRatio");
+            if(jsonRes){
+                setData("totalUsers");
+                setData("weekActiveUsers");
+                setData("weekRetention");
+                setData("errorRatio");
+            }
 
             function setData(idName){
                 $("#"+idName).find("h4").html(jsonRes[idName]);
@@ -53,9 +86,11 @@ $(function(){
         $.get(HOST+"appOverview/appUsing/getMemoryDataElecIndexs", IDsObj, function(res){
             var jsonRes = resFormatToJson(res);
             console.log(jsonRes);
-            setData("memory");
-            setData("dataflow");
-            setData("electricity");
+            if(jsonRes){
+                setData("memory");
+                setData("dataflow");
+                setData("electricity");
+            }
 
             function setData(idName){
                 $("#"+ idName + " div:first").find("h5").html(jsonRes[idName]["averageUsage"]);

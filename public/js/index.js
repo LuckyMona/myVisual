@@ -14,6 +14,7 @@ $(function(){
         myRouter();     //处理导航点击的路由效果
         initSelector(); //初始化应用选择器、proj选择器和vers选择器
         getIndexs();    //获取“启动次数”等五项指标
+        //getTableDetails(); //获取详细数据表格
     });
 
     function getTimes(){
@@ -42,7 +43,20 @@ $(function(){
         return dateStr;*/
         return "2017-08-09";
     }
-
+    function getTableDetails(){
+        var IDsObj = getIDs();
+        var reqOption = {
+            baseTime:getDate(),
+            projID:IDsObj.projID,
+            verID:IDsObj.verID,
+            appID:IDsObj.appID
+        };
+        $.get(HOST+"historyTrends/getTableDetails", reqOption, function(res){
+            var jsonRes = resFormatToJson(res);
+            console.log(jsonRes);
+            //TODO
+        });
+    }
     function getIndexs(){
         var IDsObj = getIDs();
         var reqOption = {
