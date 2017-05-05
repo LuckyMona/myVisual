@@ -12,6 +12,7 @@ $(function(){
         getTotalIndexs();           //应用概况-运营指标-获得“累计用户”等四项数值的接口
         getMemoryDataElecIndexs();  //应用概况-设备使用-获取“内存”等三项指标的数据
         getAuthorityAndRate();      //应用概况-设备使用-获得权限占比
+        pointDynamics();            //应用概况-运营指标-指标动态效果
     })
 
 
@@ -101,5 +102,14 @@ $(function(){
             }
         })
     }
+    function pointDynamics() {
+        $('#keyIndexW ul li.point-btn').on('click', function(e) {
+            var $this = $(e.currentTarget);
+            $this.siblings().removeClass('on');
+            $this.addClass('on');
 
+            $('#' + $this.data('chart')).siblings().hide();
+            $('#' + $this.data('chart')).show();
+        })
+    }
 })

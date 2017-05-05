@@ -92,14 +92,17 @@
             <div id="trendsWrap" class="commonFrame">
                 <div class="trendsTitle clearfix">
                     <p class="title">趋势分析</p>
-                    <span class="active">启动次数</span>
-                    <span>新增用户</span>
-                    <span>活跃用户</span>
+                    <span data-chart="startUpCounts" class="active point-btn">启动次数</span>
+                    <span data-chart="newUsers" class="point-btn">新增用户</span>
+                    <span data-chart="activeUsers" class="point-btn">活跃用户</span>
                     <span>每次使用时长</span>
-                    <span>自定义事件发生次数</span>
+                    <span data-chart="cusEventsCounts" class="point-btn">自定义事件发生次数</span>
                 </div>
                 <div>
-                    <img class="fakeImg" src="style/example.png">
+                    <div class="fakeImg" id="startUpCounts"></div>
+                    <div class="fakeImg" id="newUsers"style="display: none;"></div>
+                    <div class="fakeImg" id="activeUsers" style="display: none;"></div>
+                    <div class="fakeImg" id="cusEventsCounts" style="display: none;"></div>
                 </div>
                 <div id="detailDataW">
                     <p>详细数据</p>

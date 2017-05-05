@@ -20,15 +20,15 @@
             <div class="commonFrame" id="keyIndexW">
                 <div class="keyIndexH">关键指标（今日）</div>
                 <ul class="clearfix">
-                    <li class="on">
+                    <li class="on point-btn" data-chart="startUpCounts">
                         <p>启动次数</p>
                         <h4>340</h4>
                     </li>
-                    <li>
+                    <li class="point-btn" data-chart="newUsers">
                         <p>新增用户</p>
                         <h4>340</h4>
                     </li>
-                    <li>
+                    <li class="point-btn" data-chart="activeUsers">
                         <p>活跃用户</p>
                         <h4>340</h4>
                     </li>
@@ -36,14 +36,16 @@
                         <p>每次使用时长</p>
                         <h4>00:20:00</h4>
                     </li>
-                    <li>
+                    <li class="point-btn" data-chart="cusEventsCounts">
                         <p>自定义事件发生次数</p>
                         <h4>340</h4>
                     </li>
                 </ul>
                 <div class="lineChartW">
-                    <!-- 放折线图 -->
-                    <img src="style/example.png">
+                    <div id="startUpCounts"></div>
+                    <div id="newUsers" style="display: none;"></div>
+                    <div id="activeUsers" style="display: none;"></div>
+                    <div id="cusEventsCounts" style="display: none;"></div>
                 </div>
 
             </div>

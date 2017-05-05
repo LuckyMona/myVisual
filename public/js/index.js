@@ -1,6 +1,7 @@
 import 'normalize.css';
 import "./components/projSelector.js";
 import {resFormatToJson, resFormatToString, setHost, getIDs} from "./utils.js";
+import Highcharts from 'highcharts';
 
 var HOST = setHost();
 var APPID = 12;
@@ -13,8 +14,9 @@ $(function(){
         navDynamic();   //处理左侧导航的动态效果
         myRouter();     //处理导航点击的路由效果
         initSelector(); //初始化应用选择器、proj选择器和vers选择器
+        pointDynamics();//处理指标按钮的动态效果
         getIndexs();    //获取“启动次数”等五项指标
-        //getTableDetails(); //获取详细数据表格
+        getTableDetails(); //获取详细数据表格
     });
 
     function getTimes(){
@@ -43,6 +45,16 @@ $(function(){
         return dateStr;*/
         return "2017-08-09";
     }
+    function pointDynamics() {
+        $('.point-btn').on('click', function(e) {
+            var $this = $(e.currentTarget);
+            $this.siblings().removeClass('active');
+            $this.addClass('active');
+
+            $('#' + $this.data('chart')).siblings().hide();
+            $('#' + $this.data('chart')).show();
+        });
+    }
     function getTableDetails(){
         var IDsObj = getIDs();
         var reqOption = {
@@ -54,7 +66,58 @@ $(function(){
         $.get(HOST+"historyTrends/getTableDetails", reqOption, function(res){
             var jsonRes = resFormatToJson(res);
             console.log(jsonRes);
-            //TODO
+
+            var startupData = [], newuserData = [],
+                activeData = [], usingData = [],
+                customData = [], xData = [];
+            $.each(jsonRes.tableDatas, function(idx, item) {
+                // TODO: 需要判断数据是按小时为单位还是按天为单位返回的，来确定横坐标显示格式
+                // if (oneday) {
+                //     var hour = time.getHours() < 10?
+                //                ('0'+time.getHours()) : (''+time.getHours())
+                //              + time.getMinutes() < 10?
+                //                ('0'+time.getMinutes()) : (''+time.getMinutes());
+                //     xData.push(hour);
+                // } else {
+                // }
+                var time = new Date(item.time);
+                var day = time.getFullYear() + '-' + time.getMonth() + '-' + time.getDate();
+                xData.push(day);
+                startupData.push(item.startUpCounts);
+                newuserData.push(item.newUsers);
+                activeData.push(item.activeUsers);
+                usingData.push(item.usingTime);
+                customData.push(item.customEventsCounts);
+            });
+
+            var setParams = function(yData, title) {
+                return {
+                    title: {
+                        text: title
+                    },
+                    xAxis: {
+                        categories: xData
+                    },
+                    yAxis: {
+                        allowDecimals: false
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: '今天',
+                        data: yData
+                    }]
+                };
+            }
+            // 启动次数
+            var startup = Highcharts.chart('startUpCounts', setParams(startupData, '启动次数'));
+            // 新增用户
+            var newuser = Highcharts.chart('newUsers', setParams(newuserData, '新增用户'));
+            // 活跃用户
+            var activechart = Highcharts.chart('activeUsers', setParams(activeData, '活跃用户'));
+            // 自定义事件
+            var customchart = Highcharts.chart('cusEventsCounts', setParams(customData, '自定义事件发生次数'));
         });
     }
     function getIndexs(){
@@ -153,6 +216,3 @@ $(function(){
     }
 
 })
-
-
-
