@@ -50,7 +50,7 @@ public class SystemInfoController extends BasicController {
     @LogRequired
     public Object ProjectsAndVersionsAndApplications() {
         setResult(PROJS, projectService.getAllService());
-        setResult(VERS, versionService.getAllRomVersions());
+        setResult(VERS, versionService.getAllAppVersions());
         setResult(APPS, applicationService.getAllApplications());
         setType(SUCCESS);
         return getResult();

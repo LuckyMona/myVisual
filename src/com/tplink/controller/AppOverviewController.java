@@ -41,7 +41,7 @@ public class AppOverviewController extends BasicController {
     @ResponseBody
     @LoginCheck
     @LogRequired
-    public Object getStartUpCounts(int projID, int verID, int appID) {
+    public Object getStartUpCounts(String projID, String verID, String appID) {
         setResult(COUNT, statService.getStartupCountOfDate(new Date(), projID, verID, appID));
         return getResult();
     }
@@ -50,7 +50,7 @@ public class AppOverviewController extends BasicController {
     @ResponseBody
     @LoginCheck
     @LogRequired
-    public Object getNewUsersCounts(int projID, int verID, int appID) {
+    public Object getNewUsersCounts(String projID, String verID, String appID) {
         setResult(COUNT, statService.getNewUserCountOfDate(new Date(), projID, verID, appID));
         return getResult();
     }
@@ -59,7 +59,7 @@ public class AppOverviewController extends BasicController {
     @ResponseBody
     @LoginCheck
     @LogRequired
-    public Object getActiveUsersCounts(int projID, int verID, int appID) {
+    public Object getActiveUsersCounts(String projID, String verID, String appID) {
         setResult(COUNT, statService.getActiveUserCountOfDate(new Date(), projID, verID, appID));
         return getResult();
     }
@@ -68,7 +68,7 @@ public class AppOverviewController extends BasicController {
     @ResponseBody
     @LoginCheck
     @LogRequired
-    public Object getUsingTime(int projID, int verID, int appID) {
+    public Object getUsingTime(String projID, String verID, String appID) {
         setResult(COUNT, statService.getAverangeUseTimeOfDate(new Date(), projID, verID, appID));
         return getResult();
     }
@@ -77,7 +77,7 @@ public class AppOverviewController extends BasicController {
     @ResponseBody
     @LoginCheck
     @LogRequired
-    public Object getCustomEventCounts(int projID, int verID, int appID) {
+    public Object getCustomEventCounts(String projID, String verID, String appID) {
         setResult(COUNT, statService.getCustomEventCountOfDate(new Date(), projID, verID, appID));
         return getResult();
     }
@@ -94,7 +94,7 @@ public class AppOverviewController extends BasicController {
     @ResponseBody
     @LoginCheck
     @LogRequired
-    public Object getTotalIndexs(int projID, int verID, int appID) {
+    public Object getTotalIndexs(String projID, String verID, String appID) {
         try {
             setResult(TOTAL_USER_COUNT, statService.getTotalUserCount(projID, verID, appID));
             setResult(ACTIVE_USER_COUNT_EVERY_WEEK, statService.getActiveUserCountBetween(
@@ -117,7 +117,7 @@ public class AppOverviewController extends BasicController {
     @ResponseBody
     @LoginCheck
     @LogRequired
-    public Object getApplicationAuthRate(int projID, int verID, int appID) {
+    public Object getApplicationAuthRate(String projID, String verID, String appID) {
         try {
             setResult(AUTH_STRING, statService.getAuthorityList(projID, verID, appID));
             setResult(AUTH_RATES, statService.getAuthorityRateList(projID, verID, appID));
@@ -138,7 +138,7 @@ public class AppOverviewController extends BasicController {
     @ResponseBody
     @LoginCheck
     @LogRequired
-    public Object getMemDataEleIndexs(int projID, int verID, int appID) {
+    public Object getMemDataEleIndexs(String projID, String verID, String appID) {
 
         try {
             setResult(MEM_USAGE, statService.getMemoryUsage(projID, verID, appID));

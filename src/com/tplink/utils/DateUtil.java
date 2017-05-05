@@ -327,4 +327,14 @@ public class DateUtil {
         return new Date(newmi);
     }
 
+    /** 获取明天的这个时刻 */
+    public static Date getThisTimeOfTomorrow(Date t) {
+
+        long mi = t.getTime();
+
+        long newmi = mi + DateUtil.MILLISECONDS_PER_DAY;
+
+        return new Date(newmi);
+    }
+
 }

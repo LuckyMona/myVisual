@@ -12,6 +12,9 @@
 
 package com.tplink.domain;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ResourceUsage {
 
     private String averageUsage;
@@ -34,6 +37,20 @@ public class ResourceUsage {
     public ResourceUsage setMaxUsage(String maxUsage) {
         this.maxUsage = maxUsage;
         return this;
+    }
+
+    public static ResourceUsage fromJsonObject(JSONObject o) {
+        if (o == null) {
+            return null;
+        }
+        ResourceUsage in = new ResourceUsage();
+        try {
+            in.setAverageUsage(o.getString("avg_usg"));
+            in.setMaxUsage(o.getString("max_usg"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return in;
     }
 
 }

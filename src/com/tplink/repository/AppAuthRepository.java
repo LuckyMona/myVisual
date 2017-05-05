@@ -25,7 +25,7 @@ public class AppAuthRepository extends BaseRepository<AuthRates> implements Init
 
     private List<AuthRates> auths;
 
-    public List<String> getAppAuthNames(int pid, int vid, int aid) {
+    public List<String> getAppAuthNames(String pid, String vid, String aid) {
         List<String> names = new ArrayList<>();
         for (AuthRates auth : auths) {
             names.add(auth.getAuthority());
@@ -33,7 +33,7 @@ public class AppAuthRepository extends BaseRepository<AuthRates> implements Init
         return names;
     }
 
-    public List<AuthRates> getAuthRates(int pid, int vid, int aid) {
+    public List<AuthRates> getAuthRates(String pid, String vid, String aid) {
         return auths;
     }
 

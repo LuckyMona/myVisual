@@ -12,7 +12,7 @@
 
 package com.tplink.service;
 
-import com.tplink.domain.RomVersion;
+import com.tplink.domain.AppVersion;
 import com.tplink.repository.VersionRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,8 @@ public class VersionService {
     @Autowired
     VersionRepository versionRepository;
 
-    public List<RomVersion> getAllRomVersions() {
-        return versionRepository.getAllRomVerisons();
+    public List<AppVersion> getAllAppVersions() {
+        return AppVersion.fromJsonArray(versionRepository
+                .executeSql("select version,app from filter group by version ,app ;"));
     }
 }

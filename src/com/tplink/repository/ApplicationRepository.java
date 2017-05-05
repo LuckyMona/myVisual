@@ -1,22 +1,22 @@
 /*
  * Copyright (C) 2015, TP-LINK TECHNOLOGIES CO., LTD.
  *
- * ProjectRepository.java
+ * ApplicationRepository.java
  *
  * Description
  *
  * Author TangWeicheng
  *
- * Ver 1.0, 2017-4-27, TangWeicheng, Create file
+ * Ver 1.0, 2017-5-6, TangWeicheng, Create file
  */
 
 package com.tplink.repository;
 
-import com.tplink.domain.Project;
+import com.tplink.domain.ApplicationInfo;
 
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProjectRepository extends BaseRepository<Project> {
+public class ApplicationRepository extends BaseRepository<ApplicationInfo> {
 
 }

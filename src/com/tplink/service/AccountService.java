@@ -30,6 +30,7 @@ public class AccountService {
         account.setPassword(
                 AccountEncoder.getEncodePassword(account.getAccount(), account.getPassword()));
         boolean flag = account.checkAccount(defaultAccount);
+
         if (flag) {
             account.setKey(UUID.randomUUID().toString());
         }

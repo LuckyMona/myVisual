@@ -16,7 +16,6 @@ import com.tplink.controller.AccountController;
 import com.tplink.controller.BasicController;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
@@ -41,7 +40,7 @@ public class LoginChecker {
 
     private List<String> excludeUrls;
 
-    @Around("loginCheckPointcut()")
+    // @Around("loginCheckPointcut()")
     public Object checkIfUserIsLogin(ProceedingJoinPoint pj) {
 
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder

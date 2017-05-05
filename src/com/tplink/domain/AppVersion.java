@@ -1,13 +1,13 @@
 /*
  * Copyright (C) 2015, TP-LINK TECHNOLOGIES CO., LTD.
  *
- * ApplicationInfo.java
+ * RomVersion.java
  *
  * Description
  *
  * Author TangWeicheng
  *
- * Ver 1.0, 2017-5-6, TangWeicheng, Create file
+ * Ver 1.0, 2017-4-26, TangWeicheng, Create file
  */
 
 package com.tplink.domain;
@@ -19,51 +19,63 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApplicationInfo {
+public class AppVersion {
+
+    private String verID;
+
+    private String verName;
 
     private String appID;
 
-    private String appName;
+    public String getVerID() {
+        return verID;
+    }
+
+    public AppVersion setVerID(String verID) {
+        this.verID = verID;
+        return this;
+    }
+
+    public String getVerName() {
+        return verName;
+    }
+
+    public AppVersion setVerName(String verName) {
+        this.verName = verName;
+        return this;
+    }
 
     public String getAppID() {
         return appID;
     }
 
-    public ApplicationInfo setAppID(String appID) {
+    public AppVersion setAppID(String appID) {
         this.appID = appID;
         return this;
     }
 
-    public String getAppName() {
-        return appName;
-    }
-
-    public ApplicationInfo setAppName(String appName) {
-        this.appName = appName;
-        return this;
-    }
-
-    public static ApplicationInfo fromJsonObject(JSONObject o) {
+    public static AppVersion fromJsonObject(JSONObject o) {
         if (o == null) {
             return null;
         }
-        ApplicationInfo in = new ApplicationInfo();
+        AppVersion in = new AppVersion();
         try {
+            in.setVerID(o.getString("version"));
             in.setAppID(o.getString("app"));
-            in.setAppName(o.getString("app"));
+            in.setVerName(o.getString("version"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return in;
     }
 
-    public static List<ApplicationInfo> fromJsonArray(JSONArray arr) {
+    public static List<AppVersion> fromJsonArray(JSONArray arr) {
         if (arr == null) {
             return null;
         }
-        List<ApplicationInfo> list = new ArrayList<ApplicationInfo>();
+        List<AppVersion> list = new ArrayList<AppVersion>();
         for (int i = 0; i < arr.length(); i++) {
-            ApplicationInfo info = null;
+            AppVersion info = null;
             try {
                 info = fromJsonObject(arr.getJSONObject(i));
             } catch (JSONException e) {
