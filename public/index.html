@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="style/iconfont/iconfont.css">
     <link rel="stylesheet" type="text/css" href="style/common.css">
     <link rel="stylesheet" type="text/css" href="style/historyTrend.css">
-    <!-- <script type="text/javascript" src="lib/jquery.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="style/pagination.css">
     <script type="text/javascript" src="build/vendor.bundle.js"></script>
     <script type="text/javascript" src="build/index.bundle.js"></script>
 </head>
@@ -106,8 +106,8 @@
                 </div>
                 <div id="detailDataW">
                     <p>详细数据</p>
-                    <table>
-                        <tr>
+                    <table id="detailData">
+                        <tr class="thTr">
                             <th width="20%">时间</th>
                             <th width="15%">启动次数</th>
                             <th width="15%">新增用户</th>
@@ -115,39 +115,26 @@
                             <th width="15%">每次使用时长</th>
                             <th width="20%">自定义事件发生次数</th>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td><span>1</span>2017-04-11</td>
                             <td>190</td>
                             <td>30</td>
                             <td>190</td>
                             <td>00:09:02</td>
                             <td>190</td>
-                        </tr>
-                        <tr>
-                            <td><span>2</span>2017-04-11</td>
-                            <td>190</td>
-                            <td>30</td>
-                            <td>190</td>
-                            <td>00:09:02</td>
-                            <td>190</td>
-                        </tr>
-                        <tr>
-                            <td><span>12</span>2017-04-11</td>
-                            <td>190</td>
-                            <td>30</td>
-                            <td>190</td>
-                            <td>00:09:02</td>
-                            <td>190</td>
-                        </tr>
+                        </tr> -->
                     </table>
                     <div id="pagenationW">
-                        <span>每页显示：</span>
-                        <select>
-                            <option>10</option>
-                            <option>20</option>
-                            <option>30</option>
-                            <option>50</option>
-                        </select>
+                        <div class="showPerPage">
+                            <span>每页显示：</span>
+                            <select id="itemsPerPage">
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                        <div id="Pagination" class="clearfix"></div>
                     </div>
                 </div>
             </div>

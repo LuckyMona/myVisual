@@ -2,23 +2,37 @@ import 'normalize.css';
 import "./components/projSelector.js";
 import {resFormatToJson, resFormatToString, setHost, getIDs} from "./utils.js";
 import Highcharts from 'highcharts';
+import "./libs/jquery.pagination.js";
 
 var HOST = setHost();
 var APPID = 12;
 
 $(function(){
-
-    /*$("#projSelector").projSelector();*/
-
+    setItemsPerPageSelect();
     $("#navW").load("nav.html", function(){
         navDynamic();   //处理左侧导航的动态效果
         myRouter();     //处理导航点击的路由效果
         initSelector(); //初始化应用选择器、proj选择器和vers选择器
         pointDynamics();//处理指标按钮的动态效果
+        setUserName();  //设置header右侧的用户名
         getIndexs();    //获取“启动次数”等五项指标
         getTableDetails(); //获取详细数据表格
     });
-
+    function setItemsPerPageSelect(){
+        var localVal = localStorage.getItem("itemsPerPage");
+        if(localVal){
+            $("#itemsPerPage option[value="+ Number(localVal) +"]").attr("selected", true);
+        }
+    }
+    function setUserName(){
+        var userName = localStorage.getItem("userName");
+        if (userName){
+            $("#userName").html(userName);
+            return;
+        }
+        alert("请先登录!");
+        window.location.href = 'login.html';
+    }
     function getTimes(){
         var objSelectedTime = $("#timeSelector").find(".active");
         if(objSelectedTime.length===1){
@@ -58,7 +72,8 @@ $(function(){
     function getTableDetails(){
         var IDsObj = getIDs();
         var reqOption = {
-            baseTime:getDate(),
+            start:"2017-03-04",
+            end: "2017-03-09",
             projID:IDsObj.projID,
             verID:IDsObj.verID,
             appID:IDsObj.appID
@@ -66,6 +81,18 @@ $(function(){
         $.get(HOST+"historyTrends/getTableDetails", reqOption, function(res){
             var jsonRes = resFormatToJson(res);
             console.log(jsonRes);
+            var tableDatas = jsonRes.tableDatas
+            if(tableDatas){
+                setTable(tableDatas,$("#itemsPerPage option:selected").val(),1);
+                initPagination(tableDatas);
+                $("#itemsPerPage").change(function(){
+                    var itemsPerPage = Number($("#itemsPerPage option:selected").val());
+                    localStorage.setItem("itemsPerPage", itemsPerPage);
+                    setTable(tableDatas,itemsPerPage,1);
+                    initPagination(tableDatas);
+                });
+            }
+            // 晓莉代码start
 
             var startupData = [], newuserData = [],
                 activeData = [], usingData = [],
@@ -118,12 +145,55 @@ $(function(){
             var activechart = Highcharts.chart('activeUsers', setParams(activeData, '活跃用户'));
             // 自定义事件
             var customchart = Highcharts.chart('cusEventsCounts', setParams(customData, '自定义事件发生次数'));
+            // 晓莉代码end
         });
+
+        function setTable(tableDatas,itemsPerPage, pageIndex){
+                var tdStr = "<tr class='thTr'>"
+                            +"<th width='20%'>时间</th>"
+                            +"<th width='15%'>启动次数</th>"
+                            +"<th width='15%'>新增用户</th>"
+                            +"<th width='15%'>活跃用户</th>"
+                            +"<th width='15%'>每次使用时长</th>"
+                            +"<th width='20%'>自定义事件发生次数</th>"
+                        +"</tr>";
+                var newContent = tableDatas.slice(pageIndex*itemsPerPage,(pageIndex+1)*itemsPerPage);
+                newContent.forEach(function(item, index){
+                    tdStr+="<tr class='tdTr'>"
+                            +"<td><span>"+(index+1)+"</span>"+item.time+"</td>"
+                            +"<td>"+item.startUpCounts+"</td>"
+                            +"<td>"+item.newUsers+"</td>"
+                            +"<td>"+item.activeUsers+"</td>"
+                            +"<td>"+item.usingTime+"</td>"
+                            +"<td>"+item.customEventsCounts+"</td>"
+                        +"</tr>"
+                });
+                $("#detailDataW tbody").empty().append(tdStr);
+        }
+        function pageselectCallback(tableDatas, itemsPerPage, pageIndex, objContainer){
+            console.log(arguments);
+            setTable(tableDatas,itemsPerPage, pageIndex);
+            return false;
+        }
+        function getItemsPerPage(){
+            var itemsPerPage = Number(localStorage.getItem("itemsPerPage")) || Number($("#itemsPerPage option:selected").val());
+            return itemsPerPage;
+        }
+        function initPagination(tableDatas) {
+            var num_entries = tableDatas.length;
+            var itemsPerPage = getItemsPerPage();
+            $("#Pagination").pagination(num_entries, {
+                callback: pageselectCallback.bind(this,tableDatas,itemsPerPage),
+                items_per_page:itemsPerPage, // Show only 2 items per page
+                num_display_entries:3,
+            });
+        }
     }
     function getIndexs(){
         var IDsObj = getIDs();
         var reqOption = {
-            baseTime:getDate(),
+            start:"2017-03-04",
+            end: "2017-03-09",
             projID:IDsObj.projID,
             verID:IDsObj.verID,
             appID:IDsObj.appID
@@ -216,3 +286,6 @@ $(function(){
     }
 
 })
+
+
+

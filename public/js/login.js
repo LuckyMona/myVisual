@@ -49,7 +49,7 @@ function login() {
         "ip" : ips[0] || ''
     }, function(data) {
         if (data.type === 'success') {
-            localStorage.setItem("account",userName);
+            localStorage.setItem("userName",userName);
             location.href = '/';
         } else if (data.type === 'input') {
             alert(data.errorMessage);

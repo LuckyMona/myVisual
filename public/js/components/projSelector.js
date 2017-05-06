@@ -4,7 +4,6 @@ $.fn.projSelector = function(options){
         $e = $(this);
 
     me.init = function(){
-        console.log("init start");
 
         /*$e.addClass("projSelector");*/
         if(window.localStorage){

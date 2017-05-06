@@ -54,5 +54,7 @@ padding:20px; text-align: center;}
     border-style: none;
     width: calc(100% - 100px);
     margin-left: 50px;
-    margin-top: 15px;
+    margin-bottom: 50px;
 }
+
+.showPerPage { float:left; }
