@@ -3,7 +3,8 @@ module.exports = {
     "resFormatToString":resFormatToString,
     "setHost":setHost,
     "getIDs":getIDs,
-    "listenChange":listenChange
+    "listenChange":listenChange,
+    "getDateStr":getDateStr
 }
 
 var APPID = 12;
@@ -56,12 +57,58 @@ function listenChange(callBack){
     var objTimeSelector = $("#timeSelector");
     if (objTimeSelector){
         objTimeSelector.on("click","span",function(){
-            callBack();
+            var date = getDate($(this).html());
+            callBack(date);
         });
     }
 
     $("#projSelector select").change(function(){
         callBack();
     });
+}
+function getDate(dateStr){
+    switch (dateStr){
+        case "今天":
+            var todayStr = getDateStr(0);
+            return {
+                "start":todayStr,
+                "end":todayStr
+            }
+        case "昨天":
+            var yestodayStr = getDateStr(-1);
+            return {
+                "start":yestodayStr,
+                "end":yestodayStr
+            }
+        case "最近7天":
+            var sevenDaysBefore = getDateStr(-7);
+            var todayStr = getDateStr(0);
+            return {
+                "start":sevenDaysBefore,
+                "end":todayStr
+            }
+        case "最近30天":
+            var oneMonthBefore = getDateStr(-30);
+            var todayStr = getDateStr(0);
+            return {
+                "start":oneMonthBefore,
+                "end":todayStr
+            }
+    }
+}
+function getDateStr(AddDayCount) {
+    var dd = new Date();
+    dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+    var y = dd.getFullYear();
+    var m = dd.getMonth()+1;//获取当前月份的日期
+    var d = dd.getDate();
+    return y+"-"+m+"-"+d;
+
+    /*
+    document.write("前天："+GetDateStr(-2));
+    document.write("<br />昨天："+GetDateStr(-1));
+    document.write("<br />今天："+GetDateStr(0));
+    document.write("<br />明天："+GetDateStr(1));
+    */
 }
 

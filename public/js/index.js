@@ -1,6 +1,6 @@
 import 'normalize.css';
 import "./components/projSelector.js";
-import {resFormatToJson, resFormatToString, setHost, getIDs, listenChange} from "./utils.js";
+import {resFormatToJson, resFormatToString, setHost, getIDs, listenChange, getDateStr} from "./utils.js";
 import Highcharts from 'highcharts';
 import "./libs/jquery.pagination.js";
 
@@ -20,9 +20,19 @@ $(function(){
     });
     listenChange(sendReqs);
 
-    function sendReqs(){
-        getIndexs();    //获取“启动次数”等五项指标
-        getTableDetails(); //获取详细数据表格
+    function sendReqs(objDate){
+        var date = null;
+        if(objDate){
+            date = objDate;
+        }else{
+            var todayStr = getDateStr(0);
+            date = {
+                start:todayStr,
+                end:todayStr
+            }
+        }
+        getIndexs(date);    //获取“启动次数”等五项指标
+        getTableDetails(date); //获取详细数据表格
     }
 
     function setDatePointer(){
@@ -82,11 +92,12 @@ $(function(){
             $('#' + $this.data('chart')).show();
         });
     }
-    function getTableDetails(){
+    function getTableDetails(date){
+
         var IDsObj = getIDs();
-        var reqOption = {
-            start:"2017-03-04",
-            end: "2017-03-09",
+        var reqOption ={
+            start:date.start,
+            end: date.end,
             projID:IDsObj.projID,
             verID:IDsObj.verID,
             appID:IDsObj.appID
@@ -202,11 +213,11 @@ $(function(){
             });
         }
     }
-    function getIndexs(){
+    function getIndexs(date){
         var IDsObj = getIDs();
-        var reqOption = {
-            start:"2017-03-04",
-            end: "2017-03-09",
+        var reqOption ={
+            start:date.start,
+            end: date.end,
             projID:IDsObj.projID,
             verID:IDsObj.verID,
             appID:IDsObj.appID
