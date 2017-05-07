@@ -1,4 +1,4 @@
-
+import {getAPPID} from "./../utils.js";
 $.fn.projSelector = function(options){
     var me = this,
         $e = $(this);
@@ -26,26 +26,28 @@ $.fn.projSelector = function(options){
             var storagedProjID = storage.getItem("selectedProjID");
             var storagedVerID = storage.getItem("selectedVerID");
 
+            var APPID = getAPPID();
+
             if(storagedProjID && storagedVerID){
-                var selectedProjVers = filterVers(vers, Number(storagedProjID));
-                getOptions(selectedProjVers, "verID", "verName", verEle);
+                var selectedAppVers = filterVers(vers, APPID);
+                getOptions(selectedAppVers, "verID", "verName", verEle);
                 var nProjID = Number(storagedProjID);
                 var nVerID = Number(storagedVerID);
                 $(".projSelect option[value='"+nProjID+"']").attr("selected", true);
                 $(".verSelect option[value='"+nVerID+"']").attr("selected", true);
             }else{
-                var firstProjVers = filterVers(vers, projs[0].projID);
-                getOptions(firstProjVers, "verID","verName", verEle);
+                var firstAppVers = filterVers(vers, APPID);
+                getOptions(firstAppVers, "verID","verName", verEle);
                 storage.setItem("selectedProjID",projs[0].projID);
-                storage.setItem("selectedVerID",firstProjVers[0].verID);
+                storage.setItem("selectedVerID",firstAppVers[0].verID);
             }
 
             projEle.change(function(){
                 var selectedProjID = $(".projSelect option:selected").val();
                 storage.setItem("selectedProjID", selectedProjID);
-                var projVers = filterVers(vers,Number(selectedProjID))
+                /*var projVers = filterVers(vers,Number(selectedProjID))
                 getOptions(projVers, "verID","verName", verEle);
-                storage.setItem("selectedVerID", projVers[0].verID);
+                storage.setItem("selectedVerID", projVers[0].verID);*/
             })
             verEle.change(function(){
                 var selectedVerID = $(".verSelect option:selected").val();
@@ -53,9 +55,9 @@ $.fn.projSelector = function(options){
             })
         }
 
-        function filterVers(vers,projID){
+        function filterVers(vers,APPID){
             return vers.filter(function(item, index){
-                return item.projID === projID
+                return item.appID === APPID
             })
         }
 

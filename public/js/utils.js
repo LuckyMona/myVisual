@@ -4,10 +4,15 @@ module.exports = {
     "setHost":setHost,
     "getIDs":getIDs,
     "listenChange":listenChange,
-    "getDateStr":getDateStr
+    "getDateStr":getDateStr,
+    "getAPPID":getAPPID
 }
 
-var APPID = 12;
+/*var APPID = "com.cyanogenmod.trebuchet2";*/
+
+function getAPPID(){
+    return "com.cyanogenmod.trebuchet2";
+}
 
 function resFormatToJson(res){
     var resJson = null;
@@ -44,6 +49,7 @@ function setHost(){
 }
 
 function getIDs(){
+    var APPID = getAPPID();
     return{
         "projID":localStorage.getItem("selectedProjID"),
         "verID":localStorage.getItem("selectedVerID"),

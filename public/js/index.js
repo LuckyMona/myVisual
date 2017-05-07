@@ -104,7 +104,6 @@ $(function(){
         };
         $.get(HOST+"historyTrends/getTableDetails", reqOption, function(res){
             var jsonRes = resFormatToJson(res);
-            console.log(jsonRes);
             var tableDatas = jsonRes.tableDatas
             if(tableDatas){
                 setTable(tableDatas,$("#itemsPerPage option:selected").val(),1);
@@ -184,7 +183,6 @@ $(function(){
                 $("#detailDataW tbody").empty().append(tdStr);
         }
         function pageselectCallback(tableDatas, itemsPerPage, pageIndex, objContainer){
-            console.log(arguments);
             setTable(tableDatas,itemsPerPage, pageIndex);
             return false;
         }
@@ -211,7 +209,6 @@ $(function(){
             verID:IDsObj.verID,
             appID:IDsObj.appID
         };
-        console.log(reqOption);
         $.get(HOST+"historyTrends/getIndexs", reqOption, function(res){
             var jsonRes = resFormatToJson(res);
             if(jsonRes && jsonRes.type==="success"){
@@ -295,7 +292,5 @@ $(function(){
             }
             $("#"+hash).addClass("active");
         }
-
     }
-
 })
