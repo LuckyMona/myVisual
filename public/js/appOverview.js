@@ -1,5 +1,5 @@
 import "./components/projSelector.js";
-import {resFormatToJson, resFormatToString, setHost, getIDs} from "./utils.js";
+import {resFormatToJson, resFormatToString, setHost, getIDs, listenChange} from "./utils.js";
 
 var HOST = setHost();
 
@@ -9,13 +9,16 @@ $(function(){
         hintsDynamic();
         myRouter();
         $("#projSelector").projSelector();
+        sendReq();
+        listenChange(sendReq);
+    })
+
+    function sendReq(){
         getTotalIndexs();           //应用概况-运营指标-获得“累计用户”等四项数值的接口
         getMemoryDataElecIndexs();  //应用概况-设备使用-获取“内存”等三项指标的数据
         getAuthorityAndRate();      //应用概况-设备使用-获得权限占比
         pointDynamics();            //应用概况-运营指标-指标动态效果
-    })
-
-
+    }
     function hintsDynamic(){
         $("#showHints").hover(function(){
             $("#hintsW").show();

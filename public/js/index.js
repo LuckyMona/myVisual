@@ -1,6 +1,6 @@
 import 'normalize.css';
 import "./components/projSelector.js";
-import {resFormatToJson, resFormatToString, setHost, getIDs} from "./utils.js";
+import {resFormatToJson, resFormatToString, setHost, getIDs, listenChange} from "./utils.js";
 import Highcharts from 'highcharts';
 import "./libs/jquery.pagination.js";
 
@@ -8,16 +8,29 @@ var HOST = setHost();
 var APPID = 12;
 
 $(function(){
-    setItemsPerPageSelect();
+    setItemsPerPageSelect(); // 根据localStorage的itemsPerPage，设置选中项
     $("#navW").load("nav.html", function(){
         navDynamic();   //处理左侧导航的动态效果
         myRouter();     //处理导航点击的路由效果
         initSelector(); //初始化应用选择器、proj选择器和vers选择器
+        setDatePointer(); //设置日期选中动态效果
         pointDynamics();//处理指标按钮的动态效果
         setUserName();  //设置header右侧的用户名
+        sendReqs();     //这两个接口发送请求: getIndexs 和 getTableDetails
+    });
+    listenChange(sendReqs);
+
+    function sendReqs(){
         getIndexs();    //获取“启动次数”等五项指标
         getTableDetails(); //获取详细数据表格
-    });
+    }
+
+    function setDatePointer(){
+        $("#timeSelector").on("click","span", function(evt){
+            $(this).siblings().removeClass("active");
+            $(this).addClass("active");
+        });
+    }
     function setItemsPerPageSelect(){
         var localVal = localStorage.getItem("itemsPerPage");
         if(localVal){

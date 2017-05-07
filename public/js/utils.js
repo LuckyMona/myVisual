@@ -2,7 +2,8 @@ module.exports = {
     "resFormatToJson":resFormatToJson,
     "resFormatToString":resFormatToString,
     "setHost":setHost,
-    "getIDs":getIDs
+    "getIDs":getIDs,
+    "listenChange":listenChange
 }
 
 var APPID = 12;
@@ -47,5 +48,20 @@ function getIDs(){
         "verID":localStorage.getItem("selectedVerID"),
         "appID":APPID
     }
+}
+
+function listenChange(callBack){
+
+    console.log("change");
+    var objTimeSelector = $("#timeSelector");
+    if (objTimeSelector){
+        objTimeSelector.on("click","span",function(){
+            callBack();
+        });
+    }
+
+    $("#projSelector select").change(function(){
+        callBack();
+    });
 }
 
