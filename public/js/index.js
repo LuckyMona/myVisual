@@ -122,18 +122,7 @@ $(function(){
                 activeData = [], usingData = [],
                 customData = [], xData = [];
             $.each(jsonRes.tableDatas, function(idx, item) {
-                // TODO: 需要判断数据是按小时为单位还是按天为单位返回的，来确定横坐标显示格式
-                // if (oneday) {
-                //     var hour = time.getHours() < 10?
-                //                ('0'+time.getHours()) : (''+time.getHours())
-                //              + time.getMinutes() < 10?
-                //                ('0'+time.getMinutes()) : (''+time.getMinutes());
-                //     xData.push(hour);
-                // } else {
-                // }
-                var time = new Date(item.time);
-                var day = time.getFullYear() + '-' + time.getMonth() + '-' + time.getDate();
-                xData.push(day);
+                xData.push(item.time);
                 startupData.push(item.startUpCounts);
                 newuserData.push(item.newUsers);
                 activeData.push(item.activeUsers);
@@ -156,7 +145,7 @@ $(function(){
                         enabled: false
                     },
                     series: [{
-                        name: '今天',
+                        name: $('#projSelector .verSelect option:selected').val(),
                         data: yData
                     }]
                 };
@@ -310,6 +299,3 @@ $(function(){
     }
 
 })
-
-
-
