@@ -16,6 +16,7 @@ import com.tplink.domain.AuthRates;
 import com.tplink.domain.ResourceUsage;
 import com.tplink.repository.AppAuthRepository;
 import com.tplink.repository.StatRepository;
+import com.tplink.utils.DateUtil;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -202,7 +203,49 @@ public class StatService {
     }
 
     public String getWeeklyRetention(String projID, String verID, String appID) {
-        return ran.nextInt(100) + "%";
+
+        String lastDayLastMonth = new DateTime().minusDays(1).minusMonths(1).toString(DATE_FORMAT);
+
+        JSONArray a = statRepository
+                .executeSql("select count(*) as count from new_user where date_format(time,\""
+                        + DATE_FORMAT_STRING_SQL + "\")='" + lastDayLastMonth + "' ;");
+
+        int newUserNum = 0;
+        if (a != null) {
+
+            try {
+                JSONObject o = a.getJSONObject(0);
+                newUserNum = o.getInt("count");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                newUserNum = 0;
+            }
+        }
+
+        String lastDay = new DateTime().toString(DATE_TIME_FORMAT);
+        String weekAgo = new DateTime().minusDays(DateUtil.DAY_OF_WEEK).toString(DATE_TIME_FORMAT);
+
+        a = statRepository.executeSql("select count(*) as count from new_user where time>'"
+                + weekAgo + "' and time<'" + lastDay
+                + "' and imei in (select imei from new_user where date_format(time,\""
+                + DATE_FORMAT_STRING_SQL + "\")='" + lastDayLastMonth + "' ) ;");
+
+        int activeNum = 0;
+        if (a != null) {
+
+            try {
+                JSONObject o = a.getJSONObject(0);
+                activeNum = o.getInt("count");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                activeNum = 0;
+            }
+        }
+        if (newUserNum == 0) {
+            return 0 + "%";
+        } else {
+            return ((activeNum * 100) / newUserNum) + "%";
+        }
     }
 
     public String getErrorRateOfDate(Date date, String projID, String verID, String appID) {

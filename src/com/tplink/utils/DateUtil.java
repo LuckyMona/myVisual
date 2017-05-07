@@ -26,6 +26,8 @@ public class DateUtil {
 
     public static final long MILLISECONDS_PER_SECOND = 1000;
 
+    public static final int DAY_OF_WEEK = 7;
+
     /**
      * Format date.
      *
