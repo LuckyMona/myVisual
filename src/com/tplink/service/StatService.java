@@ -127,18 +127,18 @@ public class StatService {
                         + "' and date_format(day_time,\"" + DATE_FORMAT_STRING_SQL + "\")='"
                         + new DateTime(day.getTime()).toString(DATE_FORMAT) + "';");
 
-        int minutes = 0;
+        int millisecond = 0;
         if ((a != null) && (a.length() > 0)) {
             try {
                 JSONObject o = a.getJSONObject(0);
-                minutes = o.getInt("avg_use_time");
+                millisecond = (int)o.getDouble("avg_use_time");
             } catch (JSONException e) {
                 e.printStackTrace();
-                minutes = 0;
+                millisecond = 0;
             }
         }
 
-        return new DateTime(0, 1, 1, 0, minutes, 0, 0).toString(TIME_FORMAT);
+        return new DateTime(0, 1, 1, 0, 0, 0, millisecond).toString(TIME_FORMAT);
     }
 
     public int getCustomEventCountOfDate(Date date, String projID, String verID, String appID) {

@@ -42,7 +42,12 @@ public class AppOverviewController extends BasicController {
     @LoginCheck
     @LogRequired
     public Object getStartUpCounts(String projID, String verID, String appID) {
-        setResult(COUNT, statService.getStartupCountOfDate(new Date(), projID, verID, appID));
+        try {
+            setResult(COUNT, statService.getStartupCountOfDate(new Date(), projID, verID, appID));
+        } catch (Exception e) {
+            e.printStackTrace();
+            setType(ERROR);
+        }
         return getResult();
     }
 
@@ -51,7 +56,12 @@ public class AppOverviewController extends BasicController {
     @LoginCheck
     @LogRequired
     public Object getNewUsersCounts(String projID, String verID, String appID) {
-        setResult(COUNT, statService.getNewUserCountOfDate(new Date(), projID, verID, appID));
+        try {
+            setResult(COUNT, statService.getNewUserCountOfDate(new Date(), projID, verID, appID));
+        } catch (Exception e) {
+            e.printStackTrace();
+            setType(ERROR);
+        }
         return getResult();
     }
 
@@ -60,7 +70,13 @@ public class AppOverviewController extends BasicController {
     @LoginCheck
     @LogRequired
     public Object getActiveUsersCounts(String projID, String verID, String appID) {
-        setResult(COUNT, statService.getActiveUserCountOfDate(new Date(), projID, verID, appID));
+        try {
+            setResult(COUNT,
+                    statService.getActiveUserCountOfDate(new Date(), projID, verID, appID));
+        } catch (Exception e) {
+            e.printStackTrace();
+            setType(ERROR);
+        }
         return getResult();
     }
 
@@ -69,7 +85,13 @@ public class AppOverviewController extends BasicController {
     @LoginCheck
     @LogRequired
     public Object getUsingTime(String projID, String verID, String appID) {
-        setResult(COUNT, statService.getAverangeUseTimeOfDate(new Date(), projID, verID, appID));
+        try {
+            setResult(COUNT,
+                    statService.getAverangeUseTimeOfDate(new Date(), projID, verID, appID));
+        } catch (Exception e) {
+            e.printStackTrace();
+            setType(ERROR);
+        }
         return getResult();
     }
 
@@ -78,7 +100,13 @@ public class AppOverviewController extends BasicController {
     @LoginCheck
     @LogRequired
     public Object getCustomEventCounts(String projID, String verID, String appID) {
-        setResult(COUNT, statService.getCustomEventCountOfDate(new Date(), projID, verID, appID));
+        try {
+            setResult(COUNT,
+                    statService.getCustomEventCountOfDate(new Date(), projID, verID, appID));
+        } catch (Exception e) {
+            e.printStackTrace();
+            setType(ERROR);
+        }
         return getResult();
     }
 

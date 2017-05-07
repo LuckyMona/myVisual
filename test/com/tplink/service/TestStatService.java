@@ -37,8 +37,8 @@ public class TestStatService {
         String vid = "7.0";
         Date day = new Date();
 
-        // statService.getCustomEventCountOfDate(day, pid, vid, aid);
-        // statService.getStartupCountOfDate(day, pid, vid, aid);
+        statService.getCustomEventCountOfDate(day, pid, vid, aid);
+        statService.getStartupCountOfDate(day, pid, vid, aid);
         statService.getWeeklyRetention(pid, vid, aid);
     }
 

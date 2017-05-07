@@ -65,7 +65,7 @@ public abstract class BaseRepository<T> {
         JSONArray arr = new JSONArray();
         try {
 
-            JSONObject ob = new JSONObject();
+            JSONObject ob = null;
 
             ResultSetMetaData m = rs.getMetaData();
             int columns = m.getColumnCount();
@@ -78,10 +78,11 @@ public abstract class BaseRepository<T> {
             // System.out.println();
             // 显示表格内容
             while (rs.next()) {
+                ob = new JSONObject();
                 for (int i = 1; i <= columns; i++) {
                     ob.put(m.getColumnName(i), rs.getString(i));
-                    // System.out.print(rs.getString(i));
-                    // System.out.print("\t\t");
+                    // System.out.print(m.getColumnName(i) + "\t\t" +
+                    // rs.getString(i));
                 }
                 // System.out.println();
                 arr.put(ob);

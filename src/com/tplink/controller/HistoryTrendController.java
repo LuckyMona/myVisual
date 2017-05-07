@@ -27,7 +27,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -94,32 +93,47 @@ public class HistoryTrendController extends BasicController {
             base = DateUtil.parseDate(timePeriod.getStart());
         } catch (Exception e1) {
             e1.printStackTrace();
+            setType(ERROR);
+            setErrorMessage("参数错误");
+            return getResult();
         }
         Date current = null;
         try {
             current = DateUtil.parseDate(timePeriod.getEnd());
         } catch (Exception e) {
             e.printStackTrace();
+            setType(ERROR);
+            setErrorMessage("参数错误");
+            return getResult();
         }
 
-        setResult(ACTIVE_USER_COUNTS,
-                getContrastDataMap(statService.getActiveUserCountOfDate(base, projID, verID, appID),
-                        statService.getActiveUserCountOfDate(current, projID, verID, appID)));
-        setResult(STARTUP_COUNTS,
-                getContrastDataMap(statService.getStartupCountOfDate(base, projID, verID, appID),
-                        statService.getStartupCountOfDate(current, projID, verID, appID)));
-        setResult(NEW_USER_COUNT,
-                getContrastDataMap(statService.getNewUserCountOfDate(base, projID, verID, appID),
-                        statService.getNewUserCountOfDate(current, projID, verID, appID)));
-        setResult(USING_TIME_AVERANGE,
-                getContrastDataMap(statService.getAverangeUseTimeOfDate(base, projID, verID, appID),
-                        statService.getAverangeUseTimeOfDate(current, projID, verID, appID)));
-        setResult(CUSTOM_EVENT_COUNTS,
-                getContrastDataMap(
-                        statService.getCustomEventCountOfDate(base, projID, verID, appID),
-                        statService.getCustomEventCountOfDate(current, projID, verID, appID)));
+        try {
+            setResult(ACTIVE_USER_COUNTS,
+                    getContrastDataMap(
+                            statService.getActiveUserCountOfDate(base, projID, verID, appID),
+                            statService.getActiveUserCountOfDate(current, projID, verID, appID)));
+            setResult(STARTUP_COUNTS,
+                    getContrastDataMap(
+                            statService.getStartupCountOfDate(base, projID, verID, appID),
+                            statService.getStartupCountOfDate(current, projID, verID, appID)));
+            setResult(NEW_USER_COUNT,
+                    getContrastDataMap(
+                            statService.getNewUserCountOfDate(base, projID, verID, appID),
+                            statService.getNewUserCountOfDate(current, projID, verID, appID)));
+            setResult(USING_TIME_AVERANGE,
+                    getContrastDataMap(
+                            statService.getAverangeUseTimeOfDate(base, projID, verID, appID),
+                            statService.getAverangeUseTimeOfDate(current, projID, verID, appID)));
+            setResult(CUSTOM_EVENT_COUNTS,
+                    getContrastDataMap(
+                            statService.getCustomEventCountOfDate(base, projID, verID, appID),
+                            statService.getCustomEventCountOfDate(current, projID, verID, appID)));
 
-        setType(SUCCESS);
+            setType(SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            setType(ERROR);
+        }
 
         return getResult();
     }
@@ -134,38 +148,49 @@ public class HistoryTrendController extends BasicController {
         Date current = null;
         try {
             current = DateUtil.parseDate(timePeriod.getEnd());
-        } catch (ParseException e1) {
+        } catch (Exception e1) {
             e1.printStackTrace();
-            current = new Date();
+            setType(ERROR);
+            setErrorMessage("参数错误");
+            return getResult();
         }
         Date contrast = null;
         try {
             contrast = DateUtil.parseDate(timePeriod.getStart());
         } catch (Exception e) {
             e.printStackTrace();
-            contrast = DateUtil.getLastWeekBefore(current);
+            setType(ERROR);
+            setErrorMessage("参数错误");
+            return getResult();
         }
         boolean byHour = timePeriod.isSingleDay();
 
         List<Map<String, Object>> tableDatas = new ArrayList<>();
 
-        if (byHour) {
-            for (int i = 0; i < 24; i++) {
-                Date t = new DateTime(contrast.getTime()).plusHours(i).toDate();
-                tableDatas.add(getTableDataMap(new DateTime(t.getTime()).toString(DATE_TIME_FORMAT),
-                        statService.getStartupCountOfDate(t, projID, verID, appID, true),
-                        statService.getNewUserCountOfDate(t, projID, verID, appID, true), 0,
-                        statService.getCustomEventCountOfDate(t, projID, verID, appID, true), ""));
+        try {
+            if (byHour) {
+                for (int i = 0; i < 24; i++) {
+                    Date t = new DateTime(contrast.getTime()).plusHours(i).toDate();
+                    tableDatas.add(getTableDataMap(
+                            new DateTime(t.getTime()).toString(DATE_TIME_FORMAT),
+                            statService.getStartupCountOfDate(t, projID, verID, appID, true),
+                            statService.getNewUserCountOfDate(t, projID, verID, appID, true), 0,
+                            statService.getCustomEventCountOfDate(t, projID, verID, appID, true),
+                            ""));
+                }
+            } else {
+                for (Date t = contrast; t.before(current); t = DateUtil.getThisTimeOfTomorrow(t)) {
+                    tableDatas.add(getTableDataMap(new DateTime(t.getTime()).toString(DATE_FORMAT),
+                            statService.getStartupCountOfDate(t, projID, verID, appID, byHour),
+                            statService.getNewUserCountOfDate(t, projID, verID, appID, byHour),
+                            statService.getActiveUserCountOfDate(t, projID, verID, appID),
+                            statService.getCustomEventCountOfDate(t, projID, verID, appID, byHour),
+                            statService.getAverangeUseTimeOfDate(t, projID, verID, appID)));
+                }
             }
-        } else {
-            for (Date t = contrast; t.before(current); t = DateUtil.getThisTimeOfTomorrow(t)) {
-                tableDatas.add(getTableDataMap(new DateTime(t.getTime()).toString(DATE_FORMAT),
-                        statService.getStartupCountOfDate(t, projID, verID, appID, byHour),
-                        statService.getNewUserCountOfDate(t, projID, verID, appID, byHour),
-                        statService.getActiveUserCountOfDate(t, projID, verID, appID),
-                        statService.getCustomEventCountOfDate(t, projID, verID, appID, byHour),
-                        statService.getAverangeUseTimeOfDate(t, projID, verID, appID)));
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            setType(ERROR);
         }
 
         setResult(TABLE_DATA, tableDatas);

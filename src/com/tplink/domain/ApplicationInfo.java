@@ -29,6 +29,11 @@ public class ApplicationInfo {
         return appID;
     }
 
+    @Override
+    public String toString() {
+        return appName;
+    }
+
     public ApplicationInfo setAppID(String appID) {
         this.appID = appID;
         return this;
@@ -53,6 +58,7 @@ public class ApplicationInfo {
             in.setAppName(o.getString("app"));
         } catch (JSONException e) {
             e.printStackTrace();
+            in = null;
         }
         return in;
     }
@@ -75,7 +81,6 @@ public class ApplicationInfo {
             }
         }
         return list;
-
     }
 
 }
