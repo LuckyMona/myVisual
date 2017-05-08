@@ -223,8 +223,9 @@ $(function(){
         });
 
         function fillIndexs(className, wrapObj,jsonRes){
-            wrapObj.children("."+className).find("h4").html(jsonRes[className].baseCounts)
-            wrapObj.children("."+className).find("h5").html(jsonRes[className].contrastCounts);
+            /*wrapObj.children("."+className).find("h4").html(jsonRes[className].baseCounts)
+            wrapObj.children("."+className).find("h5").html(jsonRes[className].contrastCounts);*/
+            wrapObj.children("."+className).find("h4").html(jsonRes[className])
         }
     };
     function initSelector(){

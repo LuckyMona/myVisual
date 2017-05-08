@@ -11,7 +11,7 @@ module.exports = {
 /*var APPID = "com.cyanogenmod.trebuchet2";*/
 
 function getAPPID(){
-    return "com.cyanogenmod.trebuchet2";
+    return "com.cyanogenmod.trebuchet";
 }
 
 function resFormatToJson(res){
