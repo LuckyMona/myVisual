@@ -102,7 +102,7 @@ $(function(){
             verID:IDsObj.verID,
             appID:IDsObj.appID
         };
-        $.get(HOST+"historyTrends/getTableDetails", reqOption, function(res){
+        $.get("historyTrends/getTableDetails", reqOption, function(res){
             var jsonRes = resFormatToJson(res);
             var tableDatas = jsonRes.tableDatas
             if(tableDatas){
@@ -209,7 +209,7 @@ $(function(){
             verID:IDsObj.verID,
             appID:IDsObj.appID
         };
-        $.get(HOST+"historyTrends/getIndexs", reqOption, function(res){
+        $.get("historyTrends/getIndexs", reqOption, function(res){
             var jsonRes = resFormatToJson(res);
             if(jsonRes && jsonRes.type==="success"){
                 var wrapObj = $("#countsW");
@@ -230,7 +230,7 @@ $(function(){
     };
     function initSelector(){
 
-        $.get(HOST+"/systemInfo/getProjsAndVers", function(res){
+        $.get("/systemInfo/getProjsAndVers", function(res){
             var jsonRes = resFormatToJson(res);
             console.log(jsonRes)
             if(jsonRes && jsonRes.type==="success"){

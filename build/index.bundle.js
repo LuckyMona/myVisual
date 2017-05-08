@@ -3421,8 +3421,8 @@ module.exports = g;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalize_css__ = __webpack_require__(4);
+/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalize_css__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalize_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_normalize_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_projSelector_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(1);
@@ -3535,7 +3535,7 @@ $(function(){
             verID:IDsObj.verID,
             appID:IDsObj.appID
         };
-        $.get(HOST+"historyTrends/getTableDetails", reqOption, function(res){
+        $.get("historyTrends/getTableDetails", reqOption, function(res){
             var jsonRes = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_js__["resFormatToJson"])(res);
             var tableDatas = jsonRes.tableDatas
             if(tableDatas){
@@ -3642,7 +3642,7 @@ $(function(){
             verID:IDsObj.verID,
             appID:IDsObj.appID
         };
-        $.get(HOST+"historyTrends/getIndexs", reqOption, function(res){
+        $.get("historyTrends/getIndexs", reqOption, function(res){
             var jsonRes = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_js__["resFormatToJson"])(res);
             if(jsonRes && jsonRes.type==="success"){
                 var wrapObj = $("#countsW");
@@ -3663,7 +3663,7 @@ $(function(){
     };
     function initSelector(){
 
-        $.get(HOST+"/systemInfo/getProjsAndVers", function(res){
+        $.get("/systemInfo/getProjsAndVers", function(res){
             var jsonRes = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_js__["resFormatToJson"])(res);
             console.log(jsonRes)
             if(jsonRes && jsonRes.type==="success"){
