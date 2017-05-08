@@ -38,6 +38,10 @@ public abstract class BasicController {
         resultMap.put(key, obj);
     }
 
+    public void setResult(Map<String, Object> map) {
+        resultMap.putAll(map);
+    }
+
     public void setType(Object value) {
         resultMap.put(TYPE, value);
     }

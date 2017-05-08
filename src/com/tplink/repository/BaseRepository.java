@@ -32,6 +32,30 @@ public abstract class BaseRepository<T> {
 
     Random ran = new Random();
 
+    public int executeUpdate(String sql) {
+
+        System.out.println("execute SQL:" + sql);
+        Connection conn = null;
+
+        try {
+            conn = dataSource.getConnection();
+            Statement st = conn.createStatement();
+            int set = st.executeUpdate(sql);
+            return set;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
+    }
+
     public JSONArray executeSql(String sql) {
 
         System.out.println("execute SQL:" + sql);

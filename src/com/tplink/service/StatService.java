@@ -72,7 +72,27 @@ public class StatService {
             JSONObject o = a.getJSONObject(0);
             return o.getInt("count");
         } catch (JSONException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int getStartupCountBetween(Date start, Date end, String pid, String vid, String aid) {
+        JSONArray a = statRepository
+                .executeSql("select sum(app_start_count) as count from app_start where project='"
+                        + pid + "' and version='" + vid + "' and app='" + aid + "' and hour_time>'"
+                        + new DateTime(start.getTime()).toString(DATE_TIME_FORMAT)
+                        + "' and hour_time<'"
+                        + new DateTime(end.getTime()).toString(DATE_TIME_FORMAT) + "' ;");
+
+        if (a == null) {
+            return 0;
+        }
+        try {
+            JSONObject o = a.getJSONObject(0);
+            return o.getInt("count");
+        } catch (JSONException e) {
+            // e.printStackTrace();
             return 0;
         }
     }
@@ -96,7 +116,26 @@ public class StatService {
             JSONObject o = a.getJSONObject(0);
             return o.getInt("count");
         } catch (JSONException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int getNewUserCountBetween(Date start, Date end, String pid, String vid, String aid) {
+        JSONArray a = statRepository
+                .executeSql("select count(*) as count from new_user where project='" + pid
+                        + "' and app='" + aid + "' and version='" + vid + "' time>'"
+                        + new DateTime(start.getTime()).toString(DATE_TIME_FORMAT) + "' and time<'"
+                        + new DateTime(end.getTime()).toString(DATE_TIME_FORMAT) + "' ;");
+
+        if (a == null) {
+            return 0;
+        }
+        try {
+            JSONObject o = a.getJSONObject(0);
+            return o.getInt("count");
+        } catch (JSONException e) {
+            // e.printStackTrace();
             return 0;
         }
     }
@@ -115,14 +154,14 @@ public class StatService {
             JSONObject o = a.getJSONObject(0);
             return o.getInt("count");
         } catch (JSONException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             return 0;
         }
     }
 
     public String getAverangeUseTimeOfDate(Date day, String pid, String vid, String aid) {
-        JSONArray a = statRepository
-                .executeSql("select avg_use_time  from avg_use_time  where project='" + pid
+        JSONArray a = statRepository.executeSql(
+                "select avg(avg_use_time) as avg_time from avg_use_time  where project='" + pid
                         + "' and app='" + aid + "' and version='" + vid
                         + "' and date_format(day_time,\"" + DATE_FORMAT_STRING_SQL + "\")='"
                         + new DateTime(day.getTime()).toString(DATE_FORMAT) + "';");
@@ -133,12 +172,35 @@ public class StatService {
                 JSONObject o = a.getJSONObject(0);
                 millisecond = (int)o.getDouble("avg_use_time");
             } catch (JSONException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
                 millisecond = 0;
             }
         }
 
-        return new DateTime(0, 1, 1, 0, 0, 0, millisecond).toString(TIME_FORMAT);
+        return new DateTime(0).plusMillis(millisecond).toString(TIME_FORMAT);
+    }
+
+    public String getAverangeUseTimeBetween(Date start, Date end, String pid, String vid,
+            String aid) {
+        JSONArray a = statRepository.executeSql(
+                "select avg(avg_use_time) as avg_time from avg_use_time  where project='" + pid
+                        + "' and app='" + aid + "' and version='" + vid + "' and day_time>'"
+                        + new DateTime(start.getTime()).toString(DATE_TIME_FORMAT)
+                        + "' and day_time<'"
+                        + new DateTime(end.getTime()).toString(DATE_TIME_FORMAT) + "' ;");
+
+        int millisecond = 0;
+        if ((a != null) && (a.length() > 0)) {
+            try {
+                JSONObject o = a.getJSONObject(0);
+                millisecond = (int)o.getDouble("avg_time");
+            } catch (JSONException e) {
+                // e.printStackTrace();
+                millisecond = 0;
+            }
+        }
+
+        return new DateTime(0).plusMillis(millisecond).toString(TIME_FORMAT);
     }
 
     public int getCustomEventCountOfDate(Date date, String projID, String verID, String appID) {
@@ -161,7 +223,28 @@ public class StatService {
             JSONObject o = a.getJSONObject(0);
             return o.getInt("count");
         } catch (JSONException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int getCustomEventCountBetween(Date start, Date end, String pid, String vid,
+            String aid) {
+        JSONArray a = statRepository
+                .executeSql("select sum(count) as count from event_count where  project='" + pid
+                        + "' and app='" + aid + "' and version='" + vid + "' and hour_time>'"
+                        + new DateTime(start.getTime()).toString(DATE_TIME_FORMAT)
+                        + "' and hour_time<'"
+                        + new DateTime(end.getTime()).toString(DATE_TIME_FORMAT) + "';");
+
+        if (a == null) {
+            return 0;
+        }
+        try {
+            JSONObject o = a.getJSONObject(0);
+            return o.getInt("count");
+        } catch (JSONException e) {
+            // e.printStackTrace();
             return 0;
         }
     }
@@ -176,7 +259,7 @@ public class StatService {
             JSONObject o = a.getJSONObject(0);
             return o.getInt("count");
         } catch (JSONException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             return 0;
         }
     }
@@ -197,7 +280,7 @@ public class StatService {
             JSONObject o = a.getJSONObject(0);
             return o.getInt("count");
         } catch (JSONException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             return 0;
         }
     }
@@ -217,7 +300,7 @@ public class StatService {
                 JSONObject o = a.getJSONObject(0);
                 newUserNum = o.getInt("count");
             } catch (JSONException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
                 newUserNum = 0;
             }
         }
@@ -237,7 +320,7 @@ public class StatService {
                 JSONObject o = a.getJSONObject(0);
                 activeNum = o.getInt("count");
             } catch (JSONException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
                 activeNum = 0;
             }
         }
@@ -280,7 +363,7 @@ public class StatService {
                 JSONObject o = a.getJSONObject(0);
                 return ResourceUsage.fromJsonObject(o);
             } catch (JSONException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
             }
         }
         return new ResourceUsage();
@@ -303,7 +386,7 @@ public class StatService {
                 JSONObject o = a.getJSONObject(0);
                 return ResourceUsage.fromJsonObject(o);
             } catch (JSONException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
             }
         }
         return new ResourceUsage();

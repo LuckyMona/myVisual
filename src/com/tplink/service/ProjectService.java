@@ -28,7 +28,7 @@ public class ProjectService {
 
     public List<Project> getAllService() {
 
-        return Project.fromJsonArray(
-                projectRepository.executeSql("select project from filter group by project;"));
+        return Project.fromJsonArray(projectRepository.executeSql(
+                "select project from filter where project is not null and project<>'' group by project;"));
     }
 }

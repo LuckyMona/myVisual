@@ -28,7 +28,7 @@ public class ApplicationService {
 
     public List<ApplicationInfo> getAllApplications() {
 
-        return ApplicationInfo.fromJsonArray(
-                applicationRepository.executeSql("select app from filter group by app;"));
+        return ApplicationInfo.fromJsonArray(applicationRepository.executeSql(
+                "select app from filter where app is not null and app<>'' group by app ;"));
     }
 }

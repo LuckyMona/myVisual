@@ -65,6 +65,7 @@ public class AppVersion {
             in.setVerName(o.getString("version"));
         } catch (JSONException e) {
             e.printStackTrace();
+            in = null;
         }
         return in;
     }

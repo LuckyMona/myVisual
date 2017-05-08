@@ -26,7 +26,7 @@ public class VersionService {
     VersionRepository versionRepository;
 
     public List<AppVersion> getAllAppVersions() {
-        return AppVersion.fromJsonArray(versionRepository
-                .executeSql("select version,app from filter group by version ,app ;"));
+        return AppVersion.fromJsonArray(versionRepository.executeSql(
+                "select version,app from filter where version is not null and version<>'' group by version ,app ;"));
     }
 }

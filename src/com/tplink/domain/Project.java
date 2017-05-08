@@ -53,6 +53,7 @@ public class Project {
             in.setProjName(o.getString("project"));
         } catch (JSONException e) {
             e.printStackTrace();
+            in = null;
         }
         return in;
     }

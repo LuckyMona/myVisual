@@ -51,23 +51,12 @@ public class HistoryTrendController extends BasicController {
 
     private static final String CUSTOM_EVENT_COUNTS = "customEventsCounts";
 
-    private static final String BASE_COUNTS = "baseCounts";
-
-    private static final String CONTRAST_COUNTS = "contrastCounts";
-
     private static final String COUNTINT_TIME = "time";
 
     private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormat
             .forPattern("yyyy-MM-dd HH:mm:ss");
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd");
-
-    private static Map<String, Object> getContrastDataMap(Object o1, Object o2) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(BASE_COUNTS, o1);
-        map.put(CONTRAST_COUNTS, o2);
-        return map;
-    }
 
     private static Map<String, Object> getTableDataMap(String date, int startCount,
             int newUserCount, int activeUserCount, int cusEventCount, String usingTime) {
@@ -107,27 +96,26 @@ public class HistoryTrendController extends BasicController {
             return getResult();
         }
 
+        boolean sameDay = timePeriod.isSingleDay();
+
         try {
-            setResult(ACTIVE_USER_COUNTS,
-                    getContrastDataMap(
-                            statService.getActiveUserCountOfDate(base, projID, verID, appID),
-                            statService.getActiveUserCountOfDate(current, projID, verID, appID)));
-            setResult(STARTUP_COUNTS,
-                    getContrastDataMap(
-                            statService.getStartupCountOfDate(base, projID, verID, appID),
-                            statService.getStartupCountOfDate(current, projID, verID, appID)));
-            setResult(NEW_USER_COUNT,
-                    getContrastDataMap(
-                            statService.getNewUserCountOfDate(base, projID, verID, appID),
-                            statService.getNewUserCountOfDate(current, projID, verID, appID)));
-            setResult(USING_TIME_AVERANGE,
-                    getContrastDataMap(
-                            statService.getAverangeUseTimeOfDate(base, projID, verID, appID),
-                            statService.getAverangeUseTimeOfDate(current, projID, verID, appID)));
-            setResult(CUSTOM_EVENT_COUNTS,
-                    getContrastDataMap(
-                            statService.getCustomEventCountOfDate(base, projID, verID, appID),
-                            statService.getCustomEventCountOfDate(current, projID, verID, appID)));
+            if (sameDay) {
+
+                setResult(getTableDataMap("",
+                        statService.getStartupCountOfDate(current, projID, verID, appID),
+                        statService.getNewUserCountOfDate(current, projID, verID, appID),
+                        statService.getActiveUserCountOfDate(current, projID, verID, appID),
+                        statService.getCustomEventCountOfDate(current, projID, verID, appID),
+                        statService.getAverangeUseTimeOfDate(current, projID, verID, appID)));
+            } else {
+                setResult(getTableDataMap("",
+                        statService.getStartupCountBetween(base, current, projID, verID, appID),
+                        statService.getNewUserCountBetween(base, current, projID, verID, appID),
+                        statService.getActiveUserCountBetween(base, current, projID, verID, appID),
+                        statService.getCustomEventCountBetween(base, current, projID, verID, appID),
+                        statService.getAverangeUseTimeBetween(base, current, projID, verID,
+                                appID)));
+            }
 
             setType(SUCCESS);
         } catch (Exception e) {
