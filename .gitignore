@@ -1,7 +1,5 @@
 node_modules/*
-build/*
 npm-debug.log
-/build/
 .settings
 .classpath
 .project
