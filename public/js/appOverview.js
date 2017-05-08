@@ -52,7 +52,7 @@ $(function(){
     }
     function getAuthorityAndRate(){
         var IDsObj = getIDs();
-        $.get(HOST+"appOverview/appUsing/getAuthorityAndRate", IDsObj, function(res){
+        $.get("appOverview/appUsing/getAuthorityAndRate", IDsObj, function(res){
             var jsonRes = resFormatToJson(res);
             console.log(jsonRes);
             if(jsonRes){
@@ -82,7 +82,7 @@ $(function(){
     }
     function getTotalIndexs(){
         var IDsObj = getIDs();
-        $.get(HOST+"appOverview/keyIndex/getTotalIndexs", IDsObj, function(res){
+        $.get("appOverview/keyIndex/getTotalIndexs", IDsObj, function(res){
             var jsonRes = resFormatToJson(res);
             if(jsonRes){
                 setData("totalUsers");
@@ -99,7 +99,7 @@ $(function(){
 
     function getMemoryDataElecIndexs(){
         var IDsObj = getIDs();
-        $.get(HOST+"appOverview/appUsing/getMemoryDataElecIndexs", IDsObj, function(res){
+        $.get("appOverview/appUsing/getMemoryDataElecIndexs", IDsObj, function(res){
             var jsonRes = resFormatToJson(res);
             console.log(jsonRes);
             if(jsonRes){
@@ -136,7 +136,7 @@ $(function(){
             verID:IDsObj.verID,
             appID:IDsObj.appID
         };
-        $.get(HOST+"historyTrends/getTableDetails", reqOption, function(res){
+        $.get("historyTrends/getTableDetails", reqOption, function(res){
             var jsonRes = resFormatToJson(res);
             var startupData = [], newuserData = [],
                 activeData = [], usingData = [],

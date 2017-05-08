@@ -3663,7 +3663,7 @@ $(function(){
     };
     function initSelector(){
 
-        $.get("/systemInfo/getProjsAndVers", function(res){
+        $.get("systemInfo/getProjsAndVers", function(res){
             var jsonRes = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_js__["resFormatToJson"])(res);
             console.log(jsonRes)
             if(jsonRes && jsonRes.type==="success"){

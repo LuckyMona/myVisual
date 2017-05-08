@@ -230,7 +230,7 @@ $(function(){
     };
     function initSelector(){
 
-        $.get("/systemInfo/getProjsAndVers", function(res){
+        $.get("systemInfo/getProjsAndVers", function(res){
             var jsonRes = resFormatToJson(res);
             console.log(jsonRes)
             if(jsonRes && jsonRes.type==="success"){

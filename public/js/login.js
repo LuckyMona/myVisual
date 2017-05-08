@@ -50,7 +50,7 @@ function login() {
     }, function(data) {
         if (data.type === 'success') {
             localStorage.setItem("userName",userName);
-            location.href = '/login.html';
+            location.href = '/index.html';
         } else if (data.type === 'input') {
             alert(data.errorMessage);
         }
