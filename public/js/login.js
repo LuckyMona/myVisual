@@ -43,14 +43,14 @@ function login() {
         alert('请输入密码');
         return;
     }
-    $.post(HOST+"account/login", {
+    $.post("account/login", {
         "account" : userName,
         "password" : $.sha256(passWord),
         "ip" : ips[0] || ''
     }, function(data) {
         if (data.type === 'success') {
             localStorage.setItem("userName",userName);
-            location.href = '/';
+            location.href = '/login.html';
         } else if (data.type === 'input') {
             alert(data.errorMessage);
         }
