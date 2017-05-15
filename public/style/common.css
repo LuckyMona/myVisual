@@ -46,6 +46,9 @@ body { background: #eee; }
 .g-menu>li { border-bottom: 1px solid #36445c;}
 .g-menu li { line-height: 46px; font-size: 14px; position: relative;}
 .g-menu li.active>p { background-color: #111f2f}
+
+.g-menu .childUl a.active { background: #324659; color: #fff;}
+
 .g-menu li.active li ul { max-height: 0;overflow: hidden; opacity: 0}
 .g-menu li.active li.active ul { max-height: 2000px;  opacity: 1}
 .g-menu li li.g-three li.active a { color: #ee4f6a}
@@ -71,3 +74,6 @@ body { background: #eee; }
 .clearfix:after { content:""; display: block; clear:both; }
 
 .commonFrame { box-sizing: border-box; background: white; border: 1px solid #dEe0e6; margin: 20px; }
+
+#hintsW { display: none;padding: 10px 0 10px 35px; background: #fff; border: 1px solid #D5D5D5; border-right: none;}
+#hintsW p { line-height: 20px; }

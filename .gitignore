@@ -1,3 +1,7 @@
 node_modules/*
-build/*
 npm-debug.log
+.settings
+.classpath
+.project
+.springBeans
+bin

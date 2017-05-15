@@ -4,6 +4,7 @@
   "description": "used for data visualization",
   "main": "index.js",
   "dependencies": {
+    "highcharts": "^5.0.11",
     "jquery": "^3.1.1",
     "normalize.css": "^5.0.0",
     "webpack-dev-server": "^2.4.2"

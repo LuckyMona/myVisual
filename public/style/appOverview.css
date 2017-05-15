@@ -20,10 +20,7 @@
 
 #historyHeader .btnGroup a { padding: 0 5px; line-height: 30px; display:inline-block; outline:none; color:#676767; height: 30px; background: none; border:1px solid #D5D5D5; }
 #historyHeader .btnGroup a:hover { color:#4986E7; border-color: #4986E7; cursor: pointer; }
-#historyHeader .btnGroup a.on { border:none; color:white; background: #4986E7; }
-
-#hintsW { padding: 10px 0 10px 35px; background: #fff; border: 1px solid #D5D5D5; border-right: none;}
-#hintsW p { line-height: 20px; }
+#historyHeader .btnGroup a.active { border:none; color:white; background: #4986E7; }
 
 .keyIndexH { border:1px solid #CECECE; height: 40px; background: #FAFBFC; line-height: 40px;
     font-size: 14px; padding-left: 20px;}
@@ -58,7 +55,7 @@ border:1px solid #DEDEDE; border-top:none; }
 
 .appAuth { width:100%; }
 .appAuth .appAuthTr>* { border:1px solid #d5d5d5; padding:10px 20px; }
-.appAuth .appAuthTr>th { width:150px; text-align: center}
+.appAuth .appAuthTr>th { width:150px; text-align: center; height: 40px; box-sizing: border-box;}
 .appAuth .appAuthTr>td { line-height: 20px; }
 
 .appAuth .appAuthTr>.innerTableW { max-width:900px; padding:0 !important; overflow-x: scroll; overflow-y: hidden;}
@@ -76,3 +73,4 @@ border:1px solid #DEDEDE; border-top:none; }
 #memoryW li div span {}
 #memoryW li div h5 { margin-top: 5px; font-size: 18px; margin-bottom: 30px;}
 
+#commonHeaderW { min-height: 60px; }
