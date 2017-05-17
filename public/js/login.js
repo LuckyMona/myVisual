@@ -5,6 +5,7 @@ $(document).ready(function() {
     findIP(addIP);
 });
 
+console.log("login.js");
 var ips = [];
 var HOST = setHost();
 
@@ -13,7 +14,7 @@ function setHost(){
     if(host){
         return host;
     }
-    host = "http://127.0.0.1:8080/ue/";
+    host = "http://127.0.0.1:8080/ue2/";
     localStorage.setItem("HOST", host);
     return host;
 }
@@ -43,16 +44,16 @@ function login() {
         alert('请输入密码');
         return;
     }
-    $.post("account/login", {
+    $.post(HOST + "account/login", {
         "account" : userName,
         "password" : $.sha256(passWord),
         "ip" : ips[0] || ''
     }, function(data) {
         if (data.type === 'success') {
             localStorage.setItem("userName",userName);
-            location.href = '/index.html';
-        } else if (data.type === 'input') {
-            alert(data.errorMessage);
+            location.href = 'index.html';
+        } else if(data.type === 'error'){
+        	alert("用户名或密码错误，请重新输入！")
         }
     });
 };

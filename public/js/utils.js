@@ -5,10 +5,28 @@ module.exports = {
     "getIDs":getIDs,
     "listenChange":listenChange,
     "getDateStr":getDateStr,
-    "getAPPID":getAPPID
+    "getAPPID":getAPPID,
+    "hintsDynamic":hintsDynamic,
+    "commonHeaderRouter":commonHeaderRouter,
+    "getIndexs":getIndexs
 }
 
 /*var APPID = "com.cyanogenmod.trebuchet2";*/
+
+function getIndexs(date, callback){
+    var IDsObj = getIDs();
+    var reqOption =$.extend({},IDsObj,{
+        start:date.start,
+        end: date.end,
+    });
+    var HOST = setHost();
+    $.get(HOST + "historyTrends/getIndexs", reqOption, function(res){
+        var jsonRes = resFormatToJson(res);
+        if(jsonRes && jsonRes.type==="success"){
+            callback(jsonRes);
+        }
+    });
+}
 
 function getAPPID(){
     return "com.cyanogenmod.trebuchet";
@@ -43,23 +61,24 @@ function setHost(){
     if(host){
         return host;
     }
-    host = "http://127.0.0.1:8080/ue/";
+    host = "http://127.0.0.1:8080/ue2/";
     localStorage.setItem("HOST", host);
     return host;
 }
 
 function getIDs(){
     var APPID = getAPPID();
-    return{
-        "projID":localStorage.getItem("selectedProjID"),
-        "verID":localStorage.getItem("selectedVerID"),
+    var projID = $("#projSelect option:selected").val();
+    var verID = $("#verSelect option:selected").val();
+    return {
+        "projID":projID,
+        "verID":verID,
         "appID":APPID
     }
 }
 
 function listenChange(callBack){
 
-    console.log("change");
     var objTimeSelector = $("#timeSelector");
     if (objTimeSelector){
         objTimeSelector.on("click","span",function(){
@@ -69,7 +88,8 @@ function listenChange(callBack){
     }
 
     $("#projSelector select").change(function(){
-        callBack();
+        var date = getDate($("#timeSelector .active").html());
+        callBack(date);
     });
 }
 function getDate(dateStr){
@@ -116,5 +136,25 @@ function getDateStr(AddDayCount) {
     document.write("<br />今天："+GetDateStr(0));
     document.write("<br />明天："+GetDateStr(1));
     */
+}
+
+function hintsDynamic(){
+    $("#showHints").hover(function(){
+        $("#hintsW").show();
+    }, function(){
+        $("#hintsW").hide();
+    });
+}
+
+function commonHeaderRouter(){
+    var hash = window.location.hash.substr(1);
+    if(hash){
+        var index = hash.indexOf("-");
+        if(index>-1){
+            $(".btnGroup a").removeClass('active');
+            var subNavHash = hash.substring(index+1);
+            $("#"+subNavHash).addClass('active')
+        }
+    }
 }
 

@@ -1,7 +1,9 @@
 import {getAPPID} from "./../utils.js";
 $.fn.projSelector = function(options){
     var me = this,
-        $e = $(this);
+        $e = $(this),
+        defaults = {"isShowAll":true},
+        opts = $.extend({}, defaults, options);
 
     me.init = function(){
 
@@ -9,7 +11,6 @@ $.fn.projSelector = function(options){
         if(window.localStorage){
             var storage = window.localStorage;
 
-            //TODO: projs and vers need to change when backend run
             var projStr = "",
                 versStr = "";
 
@@ -65,6 +66,10 @@ $.fn.projSelector = function(options){
             var strArr = datas.map(function(item, index){
                 return '<option value='+item[optionID]+'>'+item[optionName]+'</option>'
             })
+            if(opts.isShowAll===true){
+            	var allStr = optionID === "projID"?"@@@allProjs":"@@@allVers";
+            	strArr.unshift('<option value='+allStr+'>全部</option>');
+            }
             eleWrap.html(strArr.join(""));
         }
     }

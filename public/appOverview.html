@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="style/common.css">
     <link rel="stylesheet" type="text/css" href="style/appOverview.css">
     <script type="text/javascript" src="build/vendor.bundle.js"></script>
-    <script type="text/javascript" src="build/index.bundle.js"></script>
     <script type="text/javascript" src="build/appOverview.bundle.js"></script>
 </head>
 <body>
@@ -19,33 +18,33 @@
             </div>
             <div class="commonFrame" id="keyIndexW">
                 <div class="keyIndexH">关键指标（今日）</div>
-                <ul class="clearfix">
+                <ul class="clearfix" id="pointBtnW">
                     <li class="on point-btn" data-chart="startUpCounts">
                         <p>启动次数</p>
-                        <h4>340</h4>
+                        <h4></h4>
                     </li>
                     <li class="point-btn" data-chart="newUsers">
                         <p>新增用户</p>
-                        <h4>340</h4>
+                        <h4></h4>
                     </li>
                     <li class="point-btn" data-chart="activeUsers">
                         <p>活跃用户</p>
-                        <h4>340</h4>
+                        <h4></h4>
                     </li>
                     <li>
                         <p>每次使用时长</p>
                         <h4>00:20:00</h4>
                     </li>
-                    <li class="point-btn" data-chart="cusEventsCounts">
+                    <li class="point-btn" data-chart="customEventsCounts">
                         <p>自定义事件发生次数</p>
-                        <h4>340</h4>
+                        <h4></h4>
                     </li>
                 </ul>
                 <div class="lineChartW">
                     <div id="startUpCounts"></div>
                     <div id="newUsers" style="display: none;"></div>
                     <div id="activeUsers" style="display: none;"></div>
-                    <div id="cusEventsCounts" style="display: none;"></div>
+                    <div id="customEventsCounts" style="display: none;"></div>
                 </div>
 
             </div>

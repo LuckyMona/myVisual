@@ -5,6 +5,7 @@ module.exports = {
     entry: {
         index: __dirname + "/public/js/index.js",
         appOverview: __dirname + "/public/js/appOverview.js",
+        appOverviewSub: __dirname + "/public/js/appOverviewSub.js",
         'vendor': ['jquery']
     },
     output: {

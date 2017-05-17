@@ -1,89 +1,52 @@
 import "./components/projSelector.js";
-import {resFormatToJson, resFormatToString, setHost, getIDs, listenChange, getDateStr} from "./utils.js";
+import { initNav } from "./nav.js";
+// import {resFormatToJson, resFormatToString, setHost, getIDs, listenChange, getDateStr} from "./utils.js";
+import * as utils from "./utils.js";
 import Highcharts from 'highcharts';
 
-var HOST = setHost();
+var HOST = utils.setHost();
 
 $(function(){
 
+    initNav();  // 初始化左侧导航
     $("#commonHeaderW").load("commonHeader.html",function(){
-        hintsDynamic();
-        myRouter();
-        $("#projSelector").projSelector();
-        sendReq();
-        listenChange(sendReq);
+        utils.hintsDynamic();               // 处理commonHeader的指标解释
+        utils.commonHeaderRouter();         // 处理commonHeader点击的路由效果
+        $("#projSelector").projSelector();  // 初始化项目、版本选择框
+        sendReq();                          // 初始化数据请求
+        utils.listenChange(sendReq);        // 监听参数改变，重发数据请求
     })
 
-    function sendReq(objDate){
-        getTotalIndexs();           //应用概况-运营指标-获得“累计用户”等四项数值的接口
-        getMemoryDataElecIndexs();  //应用概况-设备使用-获取“内存”等三项指标的数据
-        getAuthorityAndRate();      //应用概况-设备使用-获得权限占比
-        pointDynamics();            //应用概况-运营指标-指标动态效果
-        var date = null;
-        if(objDate){
-            date = objDate;
-        }else{
-            var todayStr = getDateStr(0);
-            date = {
-                start:todayStr,
-                end:todayStr
-            }
+    function sendReq(){
+
+        getTotalIndexs();                   //获得“累计用户”等四项数值的接口
+        pointDynamics();                    //指标动态效果
+        var todayStr = utils.getDateStr(0);
+        var date = {
+            start:todayStr,
+            end:todayStr
         }
-        getChartDetails(date);          //应用概况-关键指标
+        getIndexs(date);                    //获得“启动次数”等关键指标（今日）
+        getChartDetails(date);              //应用概况-关键指标
     }
-    function hintsDynamic(){
-        $("#showHints").hover(function(){
-            $("#hintsW").show();
-        }, function(){
-            $("#hintsW").hide();
-        });
-    }
-
-    function myRouter(){
-        var hash = window.location.hash.substr(1);
-        if(hash){
-            var index = hash.indexOf("-");
-            if(index>-1){
-                $(".btnGroup a").removeClass('active');
-                var subNavHash = hash.substring(index+1);
-                $("#"+subNavHash).addClass('active')
-            }
+    function getIndexs(date){
+        console.log("getIndexs");
+        utils.getIndexs(date, callback);
+        function callback(jsonRes){
+            setPointBtns("startUpCounts", jsonRes);
+            setPointBtns("newUsers", jsonRes);
+            setPointBtns("activeUsers", jsonRes);
+            setPointBtns("usingTime", jsonRes);
+            setPointBtns("customEventsCounts", jsonRes);
         }
-    }
-    function getAuthorityAndRate(){
-        var IDsObj = getIDs();
-        $.get("appOverview/appUsing/getAuthorityAndRate", IDsObj, function(res){
-            var jsonRes = resFormatToJson(res);
-            console.log(jsonRes);
-            if(jsonRes){
-                $("#authApply").html(jsonRes.authorities);
-
-                var tableStr = "";
-                var tableThStr = "<tr>";
-                var tableTdStr = "<tr>";
-
-                jsonRes.authoritiesAndRate.forEach(function(item, index){
-                    tableThStr+="<th>"+item.authority+"</th>";
-                    tableTdStr+="<td>"+item.rate+"</td>";
-                });
-                tableThStr+="</tr>";
-                tableTdStr+="</tr>";
-
-                tableStr = tableThStr+tableTdStr;
-
-                $("#innerTable").html(tableStr);
-                var tableWidth = $("#innerTable").width();
-                var tableWrapWidth = $(".innerTableW").width();
-                if(tableWidth<tableWrapWidth){
-                    $("#innerTable").find("th").width(tableWrapWidth/jsonRes.authoritiesAndRate.length)
-                }
-            }
-        });
+        function setPointBtns(keyName,jsonRes){
+            $("#pointBtnW li[data-chart="+keyName+"]").find("h4").html(jsonRes[keyName]);
+        }
     }
     function getTotalIndexs(){
-        var IDsObj = getIDs();
-        $.get("appOverview/keyIndex/getTotalIndexs", IDsObj, function(res){
-            var jsonRes = resFormatToJson(res);
+        var IDsObj = utils.getIDs();
+        $.get(HOST + "appOverview/keyIndex/getTotalIndexs", IDsObj, function(res){
+            var jsonRes = utils.resFormatToJson(res);
             if(jsonRes){
                 setData("totalUsers");
                 setData("weekActiveUsers");
@@ -97,38 +60,17 @@ $(function(){
         })
     }
 
-    function getMemoryDataElecIndexs(){
-        var IDsObj = getIDs();
-        $.get("appOverview/appUsing/getMemoryDataElecIndexs", IDsObj, function(res){
-            var jsonRes = resFormatToJson(res);
-            console.log(jsonRes);
-            if(jsonRes){
-                setData("memory");
-                setData("dataflow");
-                setData("electricity");
-            }
-
-            function setData(idName){
-                $("#"+ idName + " div:first").find("h5").html(jsonRes[idName]["averageUsage"]);
-
-                if($("#"+ idName + " div").length>1){
-                   $("#"+ idName + " div:last").find("h5").html(jsonRes[idName]["maxUsage"]);
-                }
-            }
-        })
-    }
     function pointDynamics() {
-        $('#keyIndexW ul li.point-btn').on('click', function(e) {
-            var $this = $(e.currentTarget);
-            $this.siblings().removeClass('on');
-            $this.addClass('on');
+        $('#pointBtnW li').on('click', function(e) {
+            $(this).siblings().removeClass('on');
+            $(this).addClass('on');
 
-            $('#' + $this.data('chart')).siblings().hide();
-            $('#' + $this.data('chart')).show();
+            $('#' + $(this).data('chart')).siblings().hide();
+            $('#' + $(this).data('chart')).show();
         })
     }
     function getChartDetails(date) {
-        var IDsObj = getIDs();
+        var IDsObj = utils.getIDs();
         var reqOption ={
             start:date.start,
             end: date.end,
@@ -136,8 +78,8 @@ $(function(){
             verID:IDsObj.verID,
             appID:IDsObj.appID
         };
-        $.get("historyTrends/getTableDetails", reqOption, function(res){
-            var jsonRes = resFormatToJson(res);
+        $.get(HOST + "historyTrends/getTableDetails", reqOption, function(res){
+            var jsonRes = utils.resFormatToJson(res);
             var startupData = [], newuserData = [],
                 activeData = [], usingData = [],
                 customData = [], xData = [];
@@ -177,7 +119,7 @@ $(function(){
             // 活跃用户
             var activechart = Highcharts.chart('activeUsers', setParams(activeData, '活跃用户'));
             // 自定义事件
-            var customchart = Highcharts.chart('cusEventsCounts', setParams(customData, '自定义事件发生次数'));
+            var customchart = Highcharts.chart('customEventsCounts', setParams(customData, '自定义事件发生次数'));
         })
     }
 })
