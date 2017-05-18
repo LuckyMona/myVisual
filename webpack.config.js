@@ -3,8 +3,8 @@ var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 module.exports = {
 
     entry: {
+        historyTrend: __dirname + "/public/js/historyTrend.js",
         index: __dirname + "/public/js/index.js",
-        appOverview: __dirname + "/public/js/appOverview.js",
         appOverviewSub: __dirname + "/public/js/appOverviewSub.js",
         'vendor': ['jquery']
     },

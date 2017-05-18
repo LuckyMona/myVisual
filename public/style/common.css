@@ -77,3 +77,18 @@ body { background: #eee; }
 
 #hintsW { display: none;padding: 10px 0 10px 35px; background: #fff; border: 1px solid #D5D5D5; border-right: none;}
 #hintsW p { line-height: 20px; }
+#hintsW p strong { font-weight: bold; }
+
+.loadingContentW { position: relative; padding: 20px;}
+#loadingW .loading {width:100%; height: 100%; position: absolute; top:0; left:0; z-index: 100; background: #000; opacity: 0.2;}
+#loadingW p { top: 200px;
+    position: absolute;
+    text-align: center;
+    width: 260px;
+    z-index: 101;
+    background: white;
+    height: 100px;
+    line-height: 100px;
+    font-size: 18px;
+    left: calc(50% - 130px); }
+#loadingW { display: none; }

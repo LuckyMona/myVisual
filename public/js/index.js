@@ -1,66 +1,75 @@
-import 'normalize.css';
 import "./components/projSelector.js";
 import { initNav } from "./nav.js";
 // import {resFormatToJson, resFormatToString, setHost, getIDs, listenChange, getDateStr} from "./utils.js";
 import * as utils from "./utils.js";
 import Highcharts from 'highcharts';
-import "./libs/jquery.pagination.js";
 
 var HOST = utils.setHost();
-var APPID = 12;
 
 $(function(){
+
     initNav();  // 初始化左侧导航
-    initPage();
-    utils.listenChange(sendReqs);
+    $("#commonHeaderW").load("commonHeader.html",function(){
+        utils.hintsDynamic();               // 处理commonHeader的指标解释
+        utils.commonHeaderRouter();         // 处理commonHeader点击的路由效果
+        $("#projSelector").projSelector();  // 初始化项目、版本选择框
+        sendReq();                          // 初始化数据请求
+        utils.listenChange(sendReq);        // 监听参数改变，重发数据请求
+    })
 
-    function initPage(){
-        setItemsPerPageSelect(); // 根据localStorage的itemsPerPage，设置选中项
-        initSelector(); //初始化应用选择器、proj选择器和vers选择器
-        setDatePointer(); //设置日期选中动态效果
-        pointDynamics();//处理指标按钮的动态效果
-        sendReqs();     //这两个接口发送请求: getIndexs 和 getTableDetails
+    function sendReq(){
+
+        getTotalIndexs();                   //获得“累计用户”等四项数值的接口
+        pointDynamics();                    //指标动态效果
+        var todayStr = utils.getDateStr(0);
+        var date = {
+            start:todayStr,
+            end:todayStr
+        }
+        getIndexs(date);                    //获得“启动次数”等关键指标（今日）
+        getChartDetails(date);              //应用概况-关键指标
     }
-    function sendReqs(objDate){
-        var date = null;
-        if(objDate){
-            date = objDate;
-        }else{
-            var todayStr = utils.getDateStr(0);
-            date = {
-                start:todayStr,
-                end:todayStr
+    function getIndexs(date){
+        console.log("getIndexs");
+        utils.getIndexs(date, callback);
+        function callback(jsonRes){
+            setPointBtns("startUpCounts", jsonRes);
+            setPointBtns("newUsers", jsonRes);
+            setPointBtns("activeUsers", jsonRes);
+            setPointBtns("usingTime", jsonRes);
+            setPointBtns("customEventsCounts", jsonRes);
+        }
+        function setPointBtns(keyName,jsonRes){
+            $("#pointBtnW li[data-chart="+keyName+"]").find("h4").html(jsonRes[keyName]);
+        }
+    }
+    function getTotalIndexs(){
+        var IDsObj = utils.getIDs();
+        $.get(HOST + "appOverview/keyIndex/getTotalIndexs", IDsObj, function(res){
+            var jsonRes = utils.resFormatToJson(res);
+            if(jsonRes){
+                setData("totalUsers");
+                setData("weekActiveUsers");
+                setData("weekRetention");
+                setData("errorRatio");
             }
-        }
-        getIndexs(date);    //获取“启动次数”等五项指标
-        getTableDetails(date); //获取详细数据表格
-    }
 
-    function setDatePointer(){
-        $("#timeSelector").on("click","span", function(evt){
-            $(this).siblings().removeClass("active");
-            $(this).addClass("active");
-        });
-    }
-    function setItemsPerPageSelect(){
-        var localVal = localStorage.getItem("itemsPerPage");
-        if(localVal){
-            $("#itemsPerPage option[value="+ Number(localVal) +"]").attr("selected", true);
-        }
+            function setData(idName){
+                $("#"+idName).find("h4").html(jsonRes[idName]);
+            }
+        })
     }
 
     function pointDynamics() {
-        $('.point-btn').on('click', function(e) {
-            var $this = $(e.currentTarget);
-            $this.siblings().removeClass('active');
-            $this.addClass('active');
+        $('#pointBtnW li').on('click', function(e) {
+            $(this).siblings().removeClass('on');
+            $(this).addClass('on');
 
-            $('#' + $this.data('chart')).siblings().hide();
-            $('#' + $this.data('chart')).show();
-        });
+            $('#' + $(this).data('chart')).siblings().hide();
+            $('#' + $(this).data('chart')).show();
+        })
     }
-    function getTableDetails(date){
-
+    function getChartDetails(date) {
         var IDsObj = utils.getIDs();
         var reqOption ={
             start:date.start,
@@ -71,19 +80,6 @@ $(function(){
         };
         $.get(HOST + "historyTrends/getTableDetails", reqOption, function(res){
             var jsonRes = utils.resFormatToJson(res);
-            var tableDatas = jsonRes.tableDatas
-            if(tableDatas){
-               // setTable(tableDatas,$("#itemsPerPage option:selected").val(),1);
-                initPagination(tableDatas);
-                $("#itemsPerPage").change(function(){
-                    var itemsPerPage = Number($("#itemsPerPage option:selected").val());
-                    localStorage.setItem("itemsPerPage", itemsPerPage);
-                    setTable(tableDatas,itemsPerPage,1);
-                    initPagination(tableDatas);
-                });
-            }
-            // 晓莉代码start
-
             var startupData = [], newuserData = [],
                 activeData = [], usingData = [],
                 customData = [], xData = [];
@@ -123,87 +119,8 @@ $(function(){
             // 活跃用户
             var activechart = Highcharts.chart('activeUsers', setParams(activeData, '活跃用户'));
             // 自定义事件
-            var customchart = Highcharts.chart('cusEventsCounts', setParams(customData, '自定义事件发生次数'));
-            // 晓莉代码end
-        });
-
-        function setTable(tableDatas,itemsPerPage, pageIndex){
-                var tdStr = "<tr class='thTr'>"
-                            +"<th width='20%'>时间</th>"
-                            +"<th width='15%'>启动次数</th>"
-                            +"<th width='15%'>新增用户</th>"
-                            +"<th width='15%'>活跃用户</th>"
-                            +"<th width='15%'>每次使用时长</th>"
-                            +"<th width='20%'>自定义事件发生次数</th>"
-                        +"</tr>";
-                var iItemsPerPage = Number(itemsPerPage);
-                var newContent = tableDatas.slice((pageIndex-1)*iItemsPerPage, pageIndex*iItemsPerPage);
-                newContent.forEach(function(item, index){
-                    tdStr+="<tr class='tdTr'>"
-                            +"<td><span>"+((pageIndex-1)*iItemsPerPage+index+1)+"</span>"+item.time+"</td>"
-                            +"<td>"+item.startUpCounts+"</td>"
-                            +"<td>"+item.newUsers+"</td>"
-                            +"<td>"+item.activeUsers+"</td>"
-                            +"<td>"+item.usingTime+"</td>"
-                            +"<td>"+item.customEventsCounts+"</td>"
-                        +"</tr>"
-                });
-                $("#detailDataW tbody").empty().append(tdStr);
-        }
-        function pageselectCallback(tableDatas, itemsPerPage, pageIndex, objContainer){
-            setTable(tableDatas,itemsPerPage, pageIndex+1);
-            return false;
-        }
-        function getItemsPerPage(){
-            var itemsPerPage = Number(localStorage.getItem("itemsPerPage")) || Number($("#itemsPerPage option:selected").val());
-            return itemsPerPage;
-        }
-        function initPagination(tableDatas) {
-            var num_entries = tableDatas.length;
-            var itemsPerPage = getItemsPerPage();
-            $("#Pagination").pagination(num_entries, {
-                callback: pageselectCallback.bind(this,tableDatas,itemsPerPage),
-                items_per_page:itemsPerPage, // Show n items per page
-                num_display_entries:3,
-            });
-        }
-    }
-    function getIndexs(date){
-        utils.getIndexs(date,callback);
-        function callback(jsonRes){
-            var wrapObj = $("#countsW");
-            fillIndexs("startUpCounts",wrapObj,jsonRes);
-            fillIndexs("newUsers",wrapObj,jsonRes);
-            fillIndexs("activeUsers",wrapObj,jsonRes);
-            fillIndexs("usingTime",wrapObj,jsonRes);
-            fillIndexs("customEventsCounts",wrapObj,jsonRes);
-        }
-        function fillIndexs(className, wrapObj,jsonRes){
-            /*wrapObj.children("."+className).find("h4").html(jsonRes[className].baseCounts)
-            wrapObj.children("."+className).find("h5").html(jsonRes[className].contrastCounts);*/
-            wrapObj.children("."+className).find("h4").html(jsonRes[className])
-        }
-    }
-    function initSelector(){
-
-        $.get(HOST + "systemInfo/getProjsAndVers", function(res){
-            var jsonRes = utils.resFormatToJson(res);
-            console.log(jsonRes)
-            if(jsonRes && jsonRes.type==="success"){
-                /*  TODO: fullfill apps options
-                *
-                *
-                if(res.apps && Array.isArray(res.apps)){
-                    res.apps.forEach(function(item, index){
-                        optionStr +=
-                    })
-                }
-                $("#dplus-site-list-pop").find("ul").html(optionStr)
-                */
-                localStorage.setItem("projsAndVersStr",utils.resFormatToString(res));
-                $("#projSelector").projSelector();
-            }
+            var customchart = Highcharts.chart('customEventsCounts', setParams(customData, '自定义事件发生次数'));
+            utils.hideLoading();
         })
     }
-
 })

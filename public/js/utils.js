@@ -8,7 +8,8 @@ module.exports = {
     "getAPPID":getAPPID,
     "hintsDynamic":hintsDynamic,
     "commonHeaderRouter":commonHeaderRouter,
-    "getIndexs":getIndexs
+    "getIndexs":getIndexs,
+    "hideLoading":hideLoading
 }
 
 /*var APPID = "com.cyanogenmod.trebuchet2";*/
@@ -77,11 +78,26 @@ function getIDs(){
     }
 }
 
+function showLoading(){
+    var oLoadingW = $("loadingW");
+    if(oLoadingW){
+        console.log("show loading");
+        oLoadingW.show();
+    }
+}
+function hideLoading(){
+    var oLoadingW = $("loadingW");
+    if(oLoadingW){
+        oLoadingW.hide();
+        console.log("hide loading");
+    }
+}
 function listenChange(callBack){
 
     var objTimeSelector = $("#timeSelector");
     if (objTimeSelector){
         objTimeSelector.on("click","span",function(){
+            showLoading();
             var date = getDate($(this).html());
             callBack(date);
         });
@@ -89,6 +105,7 @@ function listenChange(callBack){
 
     $("#projSelector select").change(function(){
         var date = getDate($("#timeSelector .active").html());
+        showLoading()
         callBack(date);
     });
 }
