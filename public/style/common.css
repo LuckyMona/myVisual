@@ -1,0 +1,94 @@
+/* reset start*/
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video { margin: 0; padding: 0;  border: 0;  font: inherit;  font-size: 100%; vertical-align: baseline}
+html {line-height: 1}
+ol,ul {list-style: none}
+table {border-collapse: collapse; border-spacing: 0}
+caption,th,td { text-align: left; font-weight: normal; vertical-align: middle}
+q,blockquote { quotes: none}
+q:before,q:after,blockquote:before,blockquote:after { content: "";  content: none}
+a {text-decoration: none; outline: none;}
+a,img { border: none}
+/* reset end*/
+
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary {  display: block}
+body {  font-size: 12px;min-width: 1280px; font-family: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", arial, '\5b8b\4f53';}
+.iconfont { font-family: "iconfont" !important; font-size: 16px; font-style: normal;-webkit-font-smoothing: antialiased;-webkit-text-stroke-width: 0.1px; -moz-osx-font-smoothing: grayscale;}
+
+.v-header{min-width: 1000px; background-color: #dee2e9;height: 50px; width: 100%;position: fixed;z-index: 200;left: 0;    top: 0;}
+.v-header-l { width: 274px; float: left; height: 100%; transition: width .3s; background-color: #619BF9;}
+.v-header-menu { float: left; width: 54px; height: 50px; text-align: center; cursor: pointer; line-height: 46px; font-size: 26px;background: #111f2f;}
+
+.v-header-title { line-height: 50px; vertical-align: middle; font-size: 20px;height:100%;}
+.v-header-title a { color: white; padding-left: 20px; float: left; width: 200px;}
+.v-header-r { height:100%; float:left;}
+.v-header-r p { color:#333;float:left; height: 100%; line-height: 50px; padding:0 20px; width: 80px;
+    text-align: center;border-right: 1px solid #fff; font-size: 16px; cursor:pointer;text-shadow: 0px 1px 0px #fff; }
+.v-header-r .active { color:#5DADE8; font-weight: bold; }
+.v-header-login {  float:right; height: 100%;line-height: 50px; margin-right: 20px;padding: 0 20px; font-size: 14px;}
+.v-header-login a { color:#333; }
+.icon-menu { color: #414d5f !important; }
+.icon-menu:hover { color: #fff !important; }
+
+body { background: #eee; }
+
+.v-nav { width: 274px; height: 100%; position: fixed; left: 0; top: 0; padding-top: 50px;box-sizing: border-box; z-index: 111; background: #25344a }
+.v-sider-tab {background: #111f2f;width: 54px; text-align: center;height: 100%; position: absolute;left: 0; padding-top: 0; box-sizing: border-box; z-index: 112;}
+.dplus-site-list { height: 36px; padding: 13px 10px 12px; position: relative; overflow: visible; border-bottom: 1px solid #36445c;}
+.dplus-site-list-text {background-color: #324659;height: 36px;border-radius: 4px;padding: 0 30px 0 10px;line-height: 36px;position: relative;cursor: pointer;margin-left: 54px;}
+.dplus-site-list-text p {color: #fff;width: 100%; white-space: nowrap;text-overflow: ellipsis; overflow: hidden;}
+.dplus-site-list-text .iconfont { position: absolute; right: 12px; top: 0; opacity: 1; color: #8ea5c3;}
+.dplus-site-list-text .iconfont:hover { color:#fff; }
+.g-menu { border-color: #1a2939;border-top: 2px solid transparent; border: none; position: relative; padding-left: 54px;}
+.g-sider-tab { background: #111f2f; width: 54px; text-align: center;height: 100%; position: absolute; left: 0; top: 7px; padding-top: 0; box-sizing: border-box; z-index: 112;}
+.g-sider-tab p i { font-size: 32px;color: #414d5f; cursor: pointer;}
+.g-sider-tab p i:hover { color:#fff; }
+
+.g-menu>li { border-bottom: 1px solid #36445c;}
+.g-menu li { line-height: 46px; font-size: 14px; position: relative;}
+.g-menu li.active>p { background-color: #111f2f}
+
+.g-menu .childUl a.active { background: #324659; color: #fff;}
+
+.g-menu li.active li ul { max-height: 0;overflow: hidden; opacity: 0}
+.g-menu li.active li.active ul { max-height: 2000px;  opacity: 1}
+.g-menu li li.g-three li.active a { color: #ee4f6a}
+.g-menu li li.g-three li a { font-size: 12px}
+.g-menu li li.g-three a { color: #8ea5c3}
+.g-menu li a { color: #8ea5c3;}
+.g-menu li a:hover, .g-menu li a:hover .iconfont { background: #324659; color: #fff;}
+.g-menu li a { display: block; padding-left: 19px; height: 100%; padding-right: 20px; height: 46px; line-height: 46px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.g-menu li a .iconfont { font-size: 18px; margin-right: 16px;}
+.g-menu li li a {  line-height: 46px; font-size: 14px; height: 46px;}
+.g-menu li li a { background-color: #1a2939; color: #8ea5c3;}
+.g-menu li a .iconfont.down { float:right; margin-right: 0; font-size: 15px}
+.up { transform:rotate(180deg);}
+
+.dplus-site-list-pop {background: red; position: absolute; width: 200px; left: 64px; top: 50px; border-radius: 4px; overflow: hidden; opacity: 0; filter: alpha(opacity=0); left: -999em; z-index: 114;}
+.dplus-site-list-pop { transition: .5s opacity;}
+.dplus-site-list-pop { box-shadow: 0 3px 6px 0px rgba(0,0,0,0.2);}
+.dplus-site-list-pop-lists { background-color: #fff; border-color: #d2dae2}
+.dplus-site-list-pop-lists a { color: #2d384a; padding-left: 10px; display: block; height: 32px; line-height: 32px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.dplus-site-list-pop-lists a:hover { background-color: #eef1f7}
+.dplus-site-list-pop.popup { left: 64px; opacity: 1; filter: alpha(opacity=100);}
+
+.clearfix:after { content:""; display: block; clear:both; }
+
+.commonFrame { box-sizing: border-box; background: white; border: 1px solid #dEe0e6; margin: 20px; }
+
+#hintsW { display: none;padding: 10px 0 10px 35px; background: #fff; border: 1px solid #D5D5D5; border-right: none;}
+#hintsW p { line-height: 20px; }
+#hintsW p strong { font-weight: bold; }
+
+.loadingContentW { position: relative; padding: 20px;}
+#loadingW .loading {width:100%; height: 100%; position: absolute; top:0; left:0; z-index: 100; background: #000; opacity: 0.2;}
+#loadingW p { top: 200px;
+    position: absolute;
+    text-align: center;
+    width: 260px;
+    z-index: 101;
+    background: white;
+    height: 100px;
+    line-height: 100px;
+    font-size: 18px;
+    left: calc(50% - 130px); }
+#loadingW { display: none; }

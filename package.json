@@ -1,0 +1,22 @@
+{
+  "name": "myvisual",
+  "version": "1.0.0",
+  "description": "used for data visualization",
+  "main": "index.js",
+  "dependencies": {
+    "highcharts": "^5.0.11",
+    "jquery": "^3.1.1",
+    "normalize.css": "^5.0.0",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "devDependencies": {
+    "css-loader": "^0.27.3",
+    "style-loader": "^0.15.0",
+    "webpack": "^2.2.1"
+  },
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "author": "tianmiao",
+  "license": "ISC"
+}

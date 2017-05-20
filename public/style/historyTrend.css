@@ -1,0 +1,60 @@
+
+#mainW { width: calc(100% - 274px); height: 100%; margin-left: 274px; box-sizing: border-box; background: -green; padding-top:50px; }
+#mainW .timeW { height: 40px; line-height: 40px; }
+#mainW .timeW h3 { font-size: 18px; display: inline-block; }
+#mainW .timeW h3 i { font-size: 20px; margin-left:4px; }
+#mainW .timeW h3 i:hover { cursor: pointer; color:#619BF9; }
+#mainW .timeW h3 i.active { color:#619BF9; }
+#mainW .timeW div { display: inline-block; margin-left: 30px;  }
+#mainW .timeW  #timeInput { margin-left: 10px; }
+#timeSelector span { margin-right: 10px; }
+#timeSelector span:hover { cursor: pointer; color:#619BF9;}
+#timeSelector span.active { color:#619BF9; }
+
+#timeInput input { width:120px; height: 24px;}
+
+.projSelector {margin-top: 10px;}
+.projSelector select { margin-right: 30px; font-size: 14px; color: #888; width: 130px; height: 30px;}
+.projSelector span { font-size: 14px; margin-right: 4px;}
+
+#historyHeader { padding:10px 0 20px 20px; background: #fff;}
+#mainW .countsW { margin:20px; }
+#mainW .countsW .countsItemW { box-sizing:border-box; background: white; border:1px solid #dEe0e6; float:left; width:20%;
+padding:20px; text-align: center;}
+.frame { box-sizing:border-box; background: white; border:1px solid #dEe0e6;  }
+#mainW .countsW .countsItemW p { font-size: 14px; }
+#mainW .countsW .countsItemW h4 {  font-size: 16px; margin:8px 0 6px;;}
+#mainW .countsW .countsItemW h5 {  font-size: 16px; color:#999; }
+
+.clearfix:after { content:""; display: block; clear:both; }
+#trendsWrap { margin:20px; }
+
+#trendsWrap .trendsTitle { border-bottom: 1px solid #ddd;}
+#trendsWrap .trendsTitle .active { background: #619BF9; color:white;}
+#trendsWrap .trendsTitle span { color:#666; font-size: 14px; }
+#trendsWrap .trendsTitle span:not(.active):hover { cursor: pointer; color:#619BF9; }
+#trendsWrap .trendsTitle .title { color: #000; font-size: 18px; }
+#trendsWrap .trendsTitle .title, #trendsWrap .trendsTitle span { float:left; padding: 0 20px; height: 40px; line-height: 40px; border-right: 1px solid #ddd; }
+
+#detailDataW { border-top:1px solid #ddd; padding:0 20px; }
+#detailDataW p { font-size:14px; color:#666; line-height: 40px; }
+#detailDataW table { margin-top:5px; border-top:1px solid #ddd; border-bottom:1px solid #ddd; width:100%; }
+#detailDataW table th { background: #eee; font-size: 14px; text-align: center; }
+#detailDataW table td {
+    text-align: center;
+    color:#666;
+    border-top: 1px solid #ddd;
+}
+#detailDataW table td span { display: inline-block; width:30%; color:#000;}
+#detailDataW table td,#detailDataW table th { height: 30px; line-height: 30px; padding:0 20px; }
+
+#pagenationW {padding: 10px 0; }
+
+.fakeImg{
+    border-style: none;
+    width: calc(100% - 100px);
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+
+.showPerPage { float:left; }
